@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -11,49 +11,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Phase 1: Core Language Implementation
 
-This release establishes the foundational compiler infrastructure for FlowLang, a declarative DSL for ROS2 robotics development.
+This release establishes the foundational compiler infrastructure for NOS, a declarative DSL for ROS2 robotics development.
 
 ### Added
 
-- **ANTLR4 Grammar** (`flowlang/grammar/`)
-  - Complete lexer and parser for FlowLang syntax
-  - Support for `.flow`, `.node`, and `.interface` file extensions
+- **ANTLR4 Grammar** (`nos/grammar/`)
+  - Complete lexer and parser for NOS syntax
+  - Support for `.nos`, `.node`, and `.interface` file extensions
   - Auto-generated parser files from grammar definitions
 
-- **AST Construction** (`flowlang/ast/`)
+- **AST Construction** (`nos/ast/`)
   - Typed AST node hierarchy with 40+ node types
   - Source location tracking for accurate error reporting
   - Visitor pattern implementation for AST traversal
   - ASTBuilder for converting ANTLR4 parse trees to typed AST
 
-- **Semantic Analysis** (`flowlang/semantic/`)
+- **Semantic Analysis** (`nos/semantic/`)
   - Symbol table with scoped symbol resolution
   - Multi-pass semantic analyzer (symbol building, reference resolution)
   - Type checking for ROS2 message types
   - Constraint validation (range, one_of, etc.)
   - Comprehensive diagnostic reporting with error codes
 
-- **Python Code Generation** (`flowlang/codegen/`)
+- **Python Code Generation** (`nos/codegen/`)
   - PythonGenerator: Generates ROS2 Python nodes from AST
-  - LaunchTranspiler: Converts FlowLang launch to ROS2 Python launch
+  - LaunchTranspiler: Converts NOS launch to ROS2 Python launch
   - Support for lifecycle-managed nodes
   - QoS profile generation
   - Automatic parameter declaration with validation
 
-- **Runtime Library** (`flowlang/runtime/`)
-  - FlowNode: Enhanced base class for ROS2 nodes
-  - FlowLifecycleNode: Lifecycle-managed node base class
+- **Runtime Library** (`nos/runtime/`)
+  - NOSNode: Enhanced base class for ROS2 nodes
+  - NOSLifecycleNode: Lifecycle-managed node base class
   - Decorators for declarative parameter/subscription/service definitions
   - QoS utility functions (reliable, best_effort, sensor, parameter profiles)
 
-- **Compilation Pipeline** (`flowlang/compiler/`)
+- **Compilation Pipeline** (`nos/compiler/`)
   - End-to-end compiler pipeline (parse -> analyze -> generate)
   - CLI entry point with argparse interface
   - Support for file and string-based compilation
   - Batch compilation for multiple files
   - Dry-run mode for validation without generation
 
-- **Security Validation** (`flowlang/security/`)
+- **Security Validation** (`nos/security/`)
   - PythonCodeSanitizer with defense-in-depth validation
   - AST allowlist-based validation
   - Dangerous builtin detection (eval, exec, compile, etc.)
@@ -85,4 +85,4 @@ This release establishes the foundational compiler infrastructure for FlowLang, 
 - Added detection for code obfuscation attempts
 - All callback code is wrapped in try/except for runtime safety
 
-[0.1.0]: https://github.com/your-org/flowlang/releases/tag/v0.1.0
+[0.1.0]: https://github.com/your-org/nos/releases/tag/v0.1.0

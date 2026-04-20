@@ -1,11 +1,11 @@
-"""Unit tests for semantic analysis components."""
+﻿"""Unit tests for semantic analysis components."""
 
 import pytest
-from flowlang.ast.nodes import (
+from nos.ast.nodes import (
     SourceLocation, NodeDecl, ParameterDecl, PrimitiveType, PrimitiveTypeKind,
     PackageDecl, LiteralExpression, IdentifierExpression, LaunchDecl
 )
-from flowlang.semantic import (
+from nos.semantic import (
     SymbolTable, Scope, Symbol, SymbolType,
     SemanticAnalyzer, Diagnostic, DiagnosticSeverity
 )
@@ -75,7 +75,7 @@ class TestSymbolTable:
 
     def test_define_and_lookup(self):
         st = SymbolTable()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         symbol = Symbol(
             name="my_param",
             symbol_type=SymbolType.PARAMETER,
@@ -90,7 +90,7 @@ class TestSymbolTable:
 
     def test_find_by_type(self):
         st = SymbolTable()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         node_symbol = Symbol("Node1", SymbolType.NODE, None, st.current_scope)
         param_symbol = Symbol("param1", SymbolType.PARAMETER, None, st.current_scope)
@@ -104,7 +104,7 @@ class TestSymbolTable:
 
     def test_find_parameters(self):
         st = SymbolTable()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         node_scope = st.push_scope("MyNode", "node")
         param = Symbol("speed", SymbolType.PARAMETER, None, node_scope)
@@ -125,7 +125,7 @@ class TestSemanticAnalyzer:
 
     def test_analyze_empty_file(self):
         analyzer = SemanticAnalyzer()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         file_node = PackageDecl(
             location=loc,
             name="test_pkg"
@@ -137,7 +137,7 @@ class TestSemanticAnalyzer:
 
     def test_analyze_node_with_params(self):
         analyzer = SemanticAnalyzer()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         param = ParameterDecl(
             location=loc,
@@ -165,7 +165,7 @@ class TestSemanticAnalyzer:
 
     def test_duplicate_parameter_error(self):
         analyzer = SemanticAnalyzer()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         param1 = ParameterDecl(
             location=loc,
@@ -198,7 +198,7 @@ class TestDiagnostics:
     """Tests for Diagnostic class."""
 
     def test_error_diagnostic(self):
-        loc = SourceLocation(10, 5, "test.flow")
+        loc = SourceLocation(10, 5, "test.nos")
         diag = Diagnostic(
             severity=DiagnosticSeverity.ERROR,
             message="Undefined variable",
@@ -206,10 +206,10 @@ class TestDiagnostics:
             code="E001"
         )
         assert diag.severity == DiagnosticSeverity.ERROR
-        assert str(diag) == "test.flow:10:5: ERROR: Undefined variable"
+        assert str(diag) == "test.nos:10:5: ERROR: Undefined variable"
 
     def test_warning_diagnostic(self):
-        loc = SourceLocation(5, 0, "test.flow")
+        loc = SourceLocation(5, 0, "test.nos")
         diag = Diagnostic(
             severity=DiagnosticSeverity.WARNING,
             message="Unused variable",

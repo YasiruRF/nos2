@@ -1,4 +1,4 @@
-# Example FlowLang node: LidarProcessor
+﻿# Example NOS node: LidarProcessor
 # Processes LiDAR scan data with filtering and transformation
 
 package robot_navigation

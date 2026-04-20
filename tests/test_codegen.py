@@ -1,14 +1,14 @@
-"""Unit tests for code generation components."""
+﻿"""Unit tests for code generation components."""
 
 import pytest
-from flowlang.ast.nodes import (
+from nos.ast.nodes import (
     SourceLocation, NodeDecl, ParameterDecl, PrimitiveType, PrimitiveTypeKind,
     LiteralExpression, QualifiedType, SubscriptionDecl, PublicationDecl,
     LaunchDecl, GroupDecl, NodeInstance, ContainerDecl, ComponentInstance,
     IdentifierExpression, BinaryExpression
 )
-from flowlang.semantic import SymbolTable, SemanticAnalyzer
-from flowlang.codegen import PythonGenerator, LaunchTranspiler, GenerationOutput
+from nos.semantic import SymbolTable, SemanticAnalyzer
+from nos.codegen import PythonGenerator, LaunchTranspiler, GenerationOutput
 
 
 class TestPythonGenerator:
@@ -19,7 +19,7 @@ class TestPythonGenerator:
         assert gen.target == 'python'
 
     def test_generate_simple_node(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         node = NodeDecl(
             location=loc,
             name="TestNode",
@@ -41,7 +41,7 @@ class TestPythonGenerator:
         assert "test_node_node.py" in output.files
 
     def test_generate_node_with_params(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         param = ParameterDecl(
             location=loc,
             name="frame_id",
@@ -70,7 +70,7 @@ class TestPythonGenerator:
         assert "declare_parameter" in code
 
     def test_generate_subscription(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         sub = SubscriptionDecl(
             location=loc,
             name="scan",
@@ -122,7 +122,7 @@ class TestLaunchTranspiler:
         assert trans.launch_counter == 0
 
     def test_generate_launch(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         launch = LaunchDecl(
             location=loc,
             name="TestLaunch",
@@ -142,7 +142,7 @@ class TestLaunchTranspiler:
         assert "test_launch_launch.py" in output.files
 
     def test_generate_launch_with_group(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         node = NodeInstance(
             location=loc,
             name="lidar",
@@ -175,7 +175,7 @@ class TestLaunchTranspiler:
         assert "lidar" in code
 
     def test_generate_container(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         comp = ComponentInstance(
             location=loc,
             name="processor",
@@ -241,7 +241,7 @@ class TestCodeGenerationEdgeCases:
     def test_expression_to_python_literal(self):
         """Test expression conversion to Python."""
         gen = PythonGenerator()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         # Integer literal
         int_lit = LiteralExpression(location=loc, value=42, literal_type="int")
@@ -258,15 +258,15 @@ class TestCodeGenerationEdgeCases:
     def test_expression_to_python_identifier(self):
         """Test identifier expression conversion."""
         gen = PythonGenerator()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         ident = IdentifierExpression(location=loc, name="my_var")
         assert gen._expression_to_python(ident) == "my_var"
 
     def test_python_type_conversion(self):
-        """Test FlowLang type to Python type conversion."""
+        """Test NOS type to Python type conversion."""
         gen = PythonGenerator()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         # Primitive types
         int_type = PrimitiveType(location=loc, kind=PrimitiveTypeKind.INT)
@@ -280,7 +280,7 @@ class TestCodeGenerationEdgeCases:
 
     def test_empty_node_generation(self):
         """Test generation of empty node."""
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         node = NodeDecl(
             location=loc,
             name="EmptyNode",

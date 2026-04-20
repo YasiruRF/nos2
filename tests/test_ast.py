@@ -1,4 +1,4 @@
-"""Unit tests for AST node classes and builder.
+﻿"""Unit tests for AST node classes and builder.
 
 Tests cover:
     - SourceLocation creation and string representation
@@ -11,35 +11,35 @@ Run these tests:
 """
 
 import pytest
-from flowlang.ast.nodes import (
+from nos.ast.nodes import (
     ASTNode, SourceLocation, File, PackageDecl, NodeDecl,
     ParameterDecl, PrimitiveType, PrimitiveTypeKind,
     LiteralExpression, IdentifierExpression, Constraint,
     SubscriptionDecl, PublicationDecl, QualifiedType, LaunchDecl,
     BinaryExpression
 )
-from flowlang.ast.builder import ASTBuilder
+from nos.ast.builder import ASTBuilder
 
 
 class TestSourceLocation:
     """Tests for SourceLocation class."""
 
     def test_location_creation(self):
-        loc = SourceLocation(line=10, column=5, file="test.flow")
+        loc = SourceLocation(line=10, column=5, file="test.nos")
         assert loc.line == 10
         assert loc.column == 5
-        assert loc.file == "test.flow"
+        assert loc.file == "test.nos"
 
     def test_location_string(self):
-        loc = SourceLocation(line=10, column=5, file="test.flow")
-        assert str(loc) == "test.flow:10:5"
+        loc = SourceLocation(line=10, column=5, file="test.nos")
+        assert str(loc) == "test.nos:10:5"
 
 
 class TestPackageDecl:
     """Tests for PackageDecl AST node."""
 
     def test_package_creation(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         package = PackageDecl(
             location=loc,
             name="robot_navigation",
@@ -51,7 +51,7 @@ class TestPackageDecl:
         assert package.dependencies == ["rclpy", "geometry_msgs"]
 
     def test_package_no_version(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         package = PackageDecl(
             location=loc,
             name="simple_pkg"
@@ -64,7 +64,7 @@ class TestNodeDecl:
     """Tests for NodeDecl AST node."""
 
     def test_node_creation(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         node = NodeDecl(
             location=loc,
             name="TestNode",
@@ -81,7 +81,7 @@ class TestNodeDecl:
         assert len(node.parameters) == 0
 
     def test_node_with_parameters(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         param = ParameterDecl(
             location=loc,
             name="frame_id",
@@ -108,7 +108,7 @@ class TestParameterDecl:
     """Tests for ParameterDecl AST node."""
 
     def test_parameter_with_constraints(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         constraint = Constraint(
             location=loc,
             name="range",
@@ -133,7 +133,7 @@ class TestSubscriptionDecl:
     """Tests for SubscriptionDecl AST node."""
 
     def test_subscription_creation(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         sub = SubscriptionDecl(
             location=loc,
             name="scan",
@@ -151,11 +151,11 @@ class TestASTBuilder:
     """Tests for ASTBuilder class."""
 
     def test_builder_creation(self):
-        builder = ASTBuilder("test.flow")
-        assert builder.file_name == "test.flow"
+        builder = ASTBuilder("test.nos")
+        assert builder.file_name == "test.nos"
 
     def test_location_helper(self):
-        builder = ASTBuilder("test.flow")
+        builder = ASTBuilder("test.nos")
         # Mock context object
         class MockCtx:
             class MockStart:
@@ -166,25 +166,25 @@ class TestASTBuilder:
         loc = builder._loc(MockCtx())
         assert loc.line == 5
         assert loc.column == 10
-        assert loc.file == "test.flow"
+        assert loc.file == "test.nos"
 
 
 class TestExpressionNodes:
     """Tests for expression AST nodes."""
 
     def test_literal_expression(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         expr = LiteralExpression(location=loc, value=42, literal_type="int")
         assert expr.value == 42
         assert expr.literal_type == "int"
 
     def test_identifier_expression(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         expr = IdentifierExpression(location=loc, name="my_param")
         assert expr.name == "my_param"
 
     def test_binary_expression(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         left = LiteralExpression(location=loc, value=10, literal_type="int")
         right = LiteralExpression(location=loc, value=20, literal_type="int")
         expr = BinaryExpression(
@@ -202,7 +202,7 @@ class TestFileNode:
     """Tests for File AST node (root)."""
 
     def test_empty_file(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         file_node = File(
             location=loc,
             package=None,
@@ -213,7 +213,7 @@ class TestFileNode:
         assert len(file_node.declarations) == 0
 
     def test_file_with_package(self):
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         package = PackageDecl(
             location=loc,
             name="test_pkg",

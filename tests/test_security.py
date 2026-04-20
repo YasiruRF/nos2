@@ -1,4 +1,4 @@
-"""Security tests for FlowLang embedded Python code handling.
+﻿"""Security tests for NOS embedded Python code handling.
 
 Tests validate that the security sanitizer correctly:
 1. Blocks dangerous builtins (eval, exec, __import__, etc.)
@@ -8,7 +8,7 @@ Tests validate that the security sanitizer correctly:
 """
 
 import pytest
-from flowlang.security import (
+from nos.security import (
     SecurityError,
     SecuritySeverity,
     SecurityValidationResult,
@@ -17,7 +17,7 @@ from flowlang.security import (
     sanitize_python_code,
     validate_and_raise,
 )
-from flowlang.security.sanitizer import SecurityViolation
+from nos.security.sanitizer import SecurityViolation
 
 
 class TestSecurityValidationResult:
@@ -472,7 +472,7 @@ class TestBackwardsCompatibility:
         assert result.is_safe is True
 
     def test_old_api_works(self):
-        from flowlang.security import PythonCodeValidator
+        from nos.security import PythonCodeValidator
         validator = PythonCodeValidator()
         result = validator.validate("eval('1+1')")
         assert result.is_safe is False
@@ -554,7 +554,7 @@ class TestEdgeCases:
     """Tests for edge cases and boundary conditions."""
 
     def test_unicode_in_code(self):
-        code = "x = 'hello ñ world'"
+        code = "x = 'hello Ã± world'"
         result = validate_callback_code(code)
         assert result.is_safe is True
 

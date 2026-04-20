@@ -1,6 +1,6 @@
-"""Pytest configuration and fixtures for FlowLang tests.
+﻿"""Pytest configuration and fixtures for NOS tests.
 
-This module provides shared fixtures for the FlowLang test suite.
+This module provides shared fixtures for the NOS test suite.
 Fixtures include default source locations, mock parser outputs,
 and other test utilities.
 
@@ -11,19 +11,19 @@ Example:
 """
 
 import pytest
-from flowlang.ast.nodes import SourceLocation
+from nos.ast.nodes import SourceLocation
 
 
 @pytest.fixture
 def source_location():
     """Create a default source location for testing."""
-    return SourceLocation(line=1, column=0, file="test.flow")
+    return SourceLocation(line=1, column=0, file="test.nos")
 
 
 @pytest.fixture
 def test_file_location():
     """Create a source location pointing to a test file."""
-    return SourceLocation(line=1, column=0, file="/tmp/test.flow")
+    return SourceLocation(line=1, column=0, file="/tmp/test.nos")
 
 
 @pytest.fixture

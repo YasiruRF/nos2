@@ -1,4 +1,4 @@
-"""Test script for AST Builder.
+﻿"""Test script for AST Builder.
 
 This script tests the ASTBuilder class to ensure it can properly construct
 AST nodes from various source constructs.
@@ -7,17 +7,17 @@ AST nodes from various source constructs.
 import sys
 sys.path.insert(0, 'D:/Praxis/NOS')
 
-from flowlang.ast.builder import ASTBuilder
-from flowlang.ast import nodes
+from nos.ast.builder import ASTBuilder
+from nos.ast import nodes
 
 
 def test_source_location():
     """Test source location creation."""
-    builder = ASTBuilder("test.flow")
+    builder = ASTBuilder("test.nos")
     loc = builder._loc(None)
     assert loc.line == 0
     assert loc.column == 0
-    assert loc.file == "test.flow"
+    assert loc.file == "test.nos"
     print("  Source location: OK")
 
 
@@ -33,7 +33,7 @@ def test_strip_quotes():
 
 def test_primitive_type():
     """Test primitive type creation."""
-    builder = ASTBuilder("test.flow")
+    builder = ASTBuilder("test.nos")
 
     # Create a mock context
     class MockCtx:
@@ -58,7 +58,7 @@ def test_primitive_type():
 
 def test_qualified_identifier():
     """Test qualified identifier parsing."""
-    builder = ASTBuilder("test.flow")
+    builder = ASTBuilder("test.nos")
 
     # Create mock context with identifier list
     class MockId:
@@ -78,7 +78,7 @@ def test_qualified_identifier():
 
 def test_literal_expression():
     """Test literal expression creation."""
-    builder = ASTBuilder("test.flow")
+    builder = ASTBuilder("test.nos")
 
     class MockCtx:
         def __init__(self):
@@ -116,10 +116,10 @@ def test_literal_expression():
 
 def test_file_node():
     """Test File node creation."""
-    builder = ASTBuilder("test.flow")
+    builder = ASTBuilder("test.nos")
 
     # Create a file with package declaration
-    loc = nodes.SourceLocation(1, 0, "test.flow")
+    loc = nodes.SourceLocation(1, 0, "test.nos")
     pkg = nodes.PackageDecl(location=loc, name="test_pkg", version="1.0.0")
     imp = nodes.ImportDecl(location=loc, qualified_name="std_msgs::Header")
     node_decl = nodes.NodeDecl(location=loc, name="TestNode")
@@ -141,8 +141,8 @@ def test_file_node():
 
 def test_parameter_decl():
     """Test parameter declaration."""
-    builder = ASTBuilder("test.flow")
-    loc = nodes.SourceLocation(1, 0, "test.flow")
+    builder = ASTBuilder("test.nos")
+    loc = nodes.SourceLocation(1, 0, "test.nos")
 
     param = nodes.ParameterDecl(
         location=loc,
@@ -165,8 +165,8 @@ def test_parameter_decl():
 
 def test_subscription_decl():
     """Test subscription declaration."""
-    builder = ASTBuilder("test.flow")
-    loc = nodes.SourceLocation(1, 0, "test.flow")
+    builder = ASTBuilder("test.nos")
+    loc = nodes.SourceLocation(1, 0, "test.nos")
 
     msg_type = nodes.QualifiedType(location=loc, package="sensor_msgs", name="LaserScan")
     topic = nodes.LiteralExpression(location=loc, value="/scan", literal_type="string")
@@ -194,8 +194,8 @@ def test_subscription_decl():
 
 def test_launch_decl():
     """Test launch declaration."""
-    builder = ASTBuilder("test.flow")
-    loc = nodes.SourceLocation(1, 0, "test.flow")
+    builder = ASTBuilder("test.nos")
+    loc = nodes.SourceLocation(1, 0, "test.nos")
 
     arg = nodes.ArgumentDecl(
         location=loc,
@@ -241,8 +241,8 @@ def test_launch_decl():
 
 def test_interface_decl():
     """Test interface declaration."""
-    builder = ASTBuilder("test.flow")
-    loc = nodes.SourceLocation(1, 0, "test.flow")
+    builder = ASTBuilder("test.nos")
+    loc = nodes.SourceLocation(1, 0, "test.nos")
 
     header_field = nodes.FieldDecl(
         location=loc,
@@ -271,8 +271,8 @@ def test_interface_decl():
 
 def test_callback_decl():
     """Test callback declaration."""
-    builder = ASTBuilder("test.flow")
-    loc = nodes.SourceLocation(1, 0, "test.flow")
+    builder = ASTBuilder("test.nos")
+    loc = nodes.SourceLocation(1, 0, "test.nos")
 
     callback = nodes.CallbackDecl(
         location=loc,

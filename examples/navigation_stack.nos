@@ -1,0 +1,70 @@
+# Example NOS launch file: NavigationStack
+# Coordinates navigation components with lifecycle management
+
+package robot_navigation
+
+launch NavigationStack {
+    # Launch arguments
+    arguments {
+        use_simulation: bool = false @description("Use Gazebo simulation")
+        model_path: string @required @description("Path to ML model for detection")
+        log_level: string = "info" @one_of(["debug", "info", "warn", "error"])
+        robot_name: string = "turtlebot3"
+    }
+
+    # Sensor group with namespace
+    group sensors @namespace("sensors") {
+        lidar: LidarProcessor {
+            parameters: {
+                port: "/dev/ttyUSB0"
+                baud_rate: 115200
+            }
+            @when(${use_simulation} == false)
+        }
+
+        camera: CameraDriver {
+            parameters: {
+                device_id: 0
+                width: 640
+                height: 480
+                format: "bgr8"
+            }
+        }
+    }
+
+    # Composable node container for perception pipeline
+    component_container PerceptionPipeline @container("perception_container") {
+        image_processor: ImageProcessor @load_component
+        object_detector: ObjectDetector @load_component {
+            parameters: { model_path: ${model_path} }
+        }
+        fusion: SensorFusion @load_component
+    }
+
+    # Include robot description
+    include "robot_description.launch" {
+        args: {
+            robot_model: ${robot_name}
+            use_sim_time: ${use_simulation}
+        }
+    }
+
+    # Lifecycle manager for coordinated startup
+    lifecycle_manager NavigationLifecycle {
+        manages: [sensors.lidar, sensors.camera, PerceptionPipeline]
+        transitions: [
+            { from: unconfigured, to: inactive },
+            { from: inactive, to: active, @delay(2.0) }
+        ]
+    }
+
+    # Event handlers
+    on "sensors.lidar:state=active" {
+        log.info("LiDAR is ready, enabling safety monitors")
+    }
+
+    on "sensors.camera:state=active" {
+        log.info("Camera is ready, starting perception pipeline")
+        PerceptionPipeline.enabled = true
+    }
+}

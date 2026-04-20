@@ -1,8 +1,8 @@
-# ROS2 DSL Architecture: FlowLang
+﻿# ROS2 DSL Architecture: NOS
 
 ## Executive Summary
 
-FlowLang is a declarative domain-specific language designed to address ROS2's verbosity and complexity challenges. It provides a unified syntax for defining robotics systems, generating optimized Python/C++ code while maintaining full compatibility with existing ROS2 tooling.
+NOS is a declarative domain-specific language designed to address ROS2's verbosity and complexity challenges. It provides a unified syntax for defining robotics systems, generating optimized Python/C++ code while maintaining full compatibility with existing ROS2 tooling.
 
 ---
 
@@ -10,24 +10,24 @@ FlowLang is a declarative domain-specific language designed to address ROS2's ve
 
 ### Design Decision: Hybrid Declarative with Embedded Expressions
 
-**Rationale:** Pure declarative languages struggle with complex logic, while imperative languages are verbose for system composition. FlowLang uses a **declarative-first approach with embedded Python expressions** for dynamic behavior.
+**Rationale:** Pure declarative languages struggle with complex logic, while imperative languages are verbose for system composition. NOS uses a **declarative-first approach with embedded Python expressions** for dynamic behavior.
 
 ### Syntax Philosophy
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    FLOWLANG SYNTAX LAYERS                   │
-├─────────────────────────────────────────────────────────────┤
-│ Layer 1: Declarative Structure (System composition)         │
-│ Layer 2: Configuration DSL (Parameters, QoS, Remappings)    │
-│ Layer 3: Embedded Expressions (Python for dynamic logic)      │
-│ Layer 4: Extension Hooks (Custom behaviors, plugins)        │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                     NOS SYNTAX LAYERS                       |
++-------------------------------------------------------------+
+| Layer 1: Declarative Structure (System composition)         |
+| Layer 2: Configuration DSL (Parameters, QoS, Remappings)    |
+| Layer 3: Embedded Expressions (Python for dynamic logic)    |
+| Layer 4: Extension Hooks (Custom behaviors, plugins)        |
++-------------------------------------------------------------+
 ```
 
 ### File Extensions and Structure
 
-- `.flow` - Main system definition files
+- `.nos` - Main system definition files
 - `.node` - Reusable node component definitions
 - `.interface` - Message/service/action interface definitions
 
@@ -37,8 +37,8 @@ FlowLang is a declarative domain-specific language designed to address ROS2's ve
 
 ### 2.1 Package and Module System
 
-**FlowLang (.flow)**:
-```flow
+**NOS (.nos)**:
+```nos
 package robot_navigation
 version "1.0.0"
 depends: ["rclpy", "geometry_msgs", "nav2_bringup", "sensor_msgs"]
@@ -63,8 +63,8 @@ import nav2::components as nav
 
 ### 2.2 Node Definition
 
-**FlowLang (.node)**:
-```flow
+**NOS (.node)**:
+```nos
 node LidarProcessor {
     # Concise parameter declarations with defaults and constraints
     parameters {
@@ -222,8 +222,8 @@ if __name__ == '__main__':
 
 ### 2.3 Launch System
 
-**FlowLang Launch (.flow)**:
-```flow
+**NOS Launch (.nos)**:
+```nos
 launch NavigationStack {
     # Grouping with implicit namespace
     group sensors @namespace("sensors") {
@@ -394,8 +394,8 @@ def generate_launch_description():
 
 ### 2.4 Topic and Message Handling
 
-**FlowLang - Message Interface Definition (.interface)**:
-```flow
+**NOS - Message Interface Definition (.interface)**:
+```nos
 # Automatic message structure validation and serialization
 message SensorFusionOutput @id(1) {
     header: std_msgs::Header
@@ -448,7 +448,7 @@ action FollowPath @id(3) {
 
 **Generated ROS2 IDL**:
 ```idl
-// Auto-generated from FlowLang interface
+// Auto-generated from NOS interface
 // sensor_fusion_output.idl
 
 #include "std_msgs/msg/Header.idl"
@@ -468,8 +468,8 @@ module robot_navigation {
 
 ### 2.5 Parameter Management
 
-**FlowLang - Parameter Schemas**:
-```flow
+**NOS - Parameter Schemas**:
+```nos
 # Centralized parameter schema with validation
 schema RobotConfiguration {
     # Typed parameters with validation
@@ -549,22 +549,22 @@ class RobotConfiguration:
 ### 3.1 Generation Pipeline
 
 ```
-┌─────────────┐    ┌──────────────┐    ┌──────────────┐    ┌─────────────┐
-│  FlowLang   │───▶│   Parser     │───▶│    AST       │───▶│   CodeGen   │
-│   Source    │    │  (ANTLR4)    │    │  Validation  │    │  (Python/   │
-│   (.flow)   │    │              │    │              │    │   C++)      │
-└─────────────┘    └──────────────┘    └──────────────┘    └──────┬──────┘
-                                                                  │
-                    ┌──────────────┐                              │
-                    │   Symbol     │◀─────────────────────────────┤
-                    │   Table      │    (Type Resolution)         │
-                    └──────────────┘                              │
-                                                                  ▼
-                    ┌──────────────┐                       ┌─────────────┐
-                    │  Message     │                       │   ROS2      │
-                    │  Definitions │◀────────────────────▶│  Runtime    │
-                    │  (.idl)      │                       │             │
-                    └──────────────┘                       └─────────────┘
++-------------â”    +--------------â”    +--------------â”    +-------------â”
+|  NOS   |--->|   Parser     |--->|    AST       |--->|   CodeGen   |
+|   Source    |    |  (ANTLR4)    |    |  Validation  |    |  (Python/   |
+|   (.nos)   |    |              |    |              |    |   C++)      |
++-------------+    +--------------+    +--------------+    +------+------+
+                                                                  |
+                    +--------------â”                              |
+                    |   Symbol     |<-----------------------------+
+                    |   Table      |    (Type Resolution)         |
+                    +--------------+                              |
+                                                                  v
+                    +--------------â”                       +-------------â”
+                    |  Message     |                       |   ROS2      |
+                    |  Definitions |<-------------------->|  Runtime    |
+                    |  (.idl)      |                       |             |
+                    +--------------+                       +-------------+
 ```
 
 ### 3.2 Generation Targets
@@ -575,10 +575,10 @@ class RobotConfiguration:
 # Generated base class (users extend this)
 # AUTO-GENERATED: Do not edit manually
 
-from flowlang.runtime import FlowNode, FlowLifecycleNode
-from flowlang.runtime.decorators import parameter, subscription, publisher, service
+from nos.runtime import NOSNode, NOSLifecycleNode
+from nos.runtime.decorators import parameter, subscription, publisher, service
 
-class LidarProcessorBase(FlowLifecycleNode):
+class LidarProcessorBase(NOSLifecycleNode):
     """Auto-generated base class for LidarProcessor node."""
     
     def __init__(self, node_name: str = "lidar_processor"):
@@ -639,16 +639,16 @@ class LidarProcessor(LidarProcessorBase):
 // Auto-generated header: lidar_processor_node.hpp
 // AUTO-GENERATED: Do not edit manually
 
-#ifndef FLOWLANG_LIDAR_PROCESSOR_NODE_HPP
-#define FLOWLANG_LIDAR_PROCESSOR_NODE_HPP
+#ifndef NOS_LIDAR_PROCESSOR_NODE_HPP
+#define NOS_LIDAR_PROCESSOR_NODE_HPP
 
 #include <rclcpp_lifecycle/lifecycle_node.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
-#include <flowlang/runtime/flow_lifecycle_node.hpp>
+#include <nos/runtime/flow_lifecycle_node.hpp>
 
 namespace robot_navigation {
 
-class LidarProcessorNode : public flowlang::FlowLifecycleNode {
+class LidarProcessorNode : public nos::NOSLifecycleNode {
 public:
     explicit LidarProcessorNode(const rclcpp::NodeOptions& options = rclcpp::NodeOptions());
     
@@ -683,11 +683,11 @@ private:
 
 ### 3.3 Compilation and Build Integration
 
-**CMakeLists.txt.flow (FlowLang-aware CMake)**:
+**CMakeLists.txt.nos (NOS-aware CMake)**:
 ```cmake
-flowlang_package()
+nos_package()
 
-flowlang_generate(
+nos_generate(
     SRCS 
         src/nodes/lidar_processor.node
         src/nodes/velocity_controller.node
@@ -695,7 +695,7 @@ flowlang_generate(
         msg/SensorFusionOutput.interface
         srv/SetNavigationGoal.interface
     LAUNCH
-        launch/navigation_stack.flow
+        launch/navigation_stack.nos
     PYTHON
         OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated
     CPP
@@ -703,14 +703,14 @@ flowlang_generate(
         LIBRARY robot_navigation_nodes
 )
 
-flowlang_add_executable(navigation_main
+nos_add_executable(navigation_main
     src/main.cpp
     USES 
         lidar_processor
         velocity_controller
 )
 
-flowlang_add_component_library(perception_components
+nos_add_component_library(perception_components
     COMPONENTS
         ImageProcessor
         ObjectDetector
@@ -726,18 +726,18 @@ project(robot_navigation)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
-find_package(flowlang_runtime REQUIRED)
+find_package(nos_runtime REQUIRED)
 # ... other dependencies
 
 # Generated targets
 add_library(robot_navigation_nodes SHARED
-    ${FLOWLANG_GENERATED_CPP_SRCS}
+    ${NOS_GENERATED_CPP_SRCS}
 )
 
 ament_target_dependencies(robot_navigation_nodes
     rclcpp
     rclcpp_lifecycle
-    flowlang_runtime
+    nos_runtime
 )
 
 # Component registration
@@ -753,26 +753,26 @@ rclcpp_components_register_nodes(robot_navigation_nodes
 
 ### 4.1 ROS2 CLI Compatibility
 
-FlowLang generates standard ROS2 package structures, maintaining compatibility:
+NOS generates standard ROS2 package structures, maintaining compatibility:
 
 ```bash
 # Standard ROS2 commands work unchanged
 ros2 pkg list | grep robot_navigation
-ros2 node list  # Shows FlowLang nodes
-ros2 topic list  # Shows FlowLang topics
-ros2 param list /lidar_processor  # Shows FlowLang parameters
+ros2 node list  # Shows NOS nodes
+ros2 topic list  # Shows NOS topics
+ros2 param list /lidar_processor  # Shows NOS parameters
 
-# FlowLang adds enhanced commands
-ros2 flowlang validate  # Validate .flow files without building
-ros2 flowlang visualize launch navigation_stack.flow  # Generate system diagram
-ros2 flowlang generate --target=cpp  # Trigger code generation
-ros2 flowlang debug /lidar_processor  # Enhanced debugging with source mapping
+# NOS adds enhanced commands
+ros2 nos validate  # Validate .nos files without building
+ros2 nos visualize launch navigation_stack.nos  # Generate system diagram
+ros2 nos generate --target=cpp  # Trigger code generation
+ros2 nos debug /lidar_processor  # Enhanced debugging with source mapping
 ```
 
 ### 4.2 RViz and Visualization Integration
 
-**FlowLang - RViz Configuration**:
-```flow
+**NOS - RViz Configuration**:
+```nos
 visualization NavigationView {
     panels {
         # Auto-populated from node definitions
@@ -801,8 +801,8 @@ visualization NavigationView {
 
 ### 4.3 rosbag Integration
 
-**FlowLang - Recording Configuration**:
-```flow
+**NOS - Recording Configuration**:
+```nos
 record Session @bag("session_{date}.bag") {
     # Selective recording with compression
     topics {
@@ -826,8 +826,8 @@ record Session @bag("session_{date}.bag") {
 
 ### 4.4 Testing Integration
 
-**FlowLang - Node Testing**:
-```flow
+**NOS - Node Testing**:
+```nos
 test LidarProcessorTest {
     # Test fixture
     setup {
@@ -869,8 +869,8 @@ test LidarProcessorTest {
 
 ### 5.1 Distributed System Coordination
 
-**FlowLang - Multi-Robot Coordination**:
-```flow
+**NOS - Multi-Robot Coordination**:
+```nos
 swarm RobotFleet @count(${fleet_size}) {
     robot: Robot {
         namespace: "robot_${index}"
@@ -903,11 +903,11 @@ swarm RobotFleet @count(${fleet_size}) {
 
 ### 5.2 Behavior Trees Integration
 
-**FlowLang - Behavior Trees**:
-```flow
+**NOS - Behavior Trees**:
+```nos
 behavior_tree NavigateToGoal {
     root: sequence {
-        # Actions reference FlowLang nodes
+        # Actions reference NOS nodes
         action SetNavigationGoal { goal: ${target_pose} }
         
         parallel(2) {
@@ -932,8 +932,8 @@ behavior_tree NavigateToGoal {
 
 ### 5.3 Simulation Integration
 
-**FlowLang - Gazebo Integration**:
-```flow
+**NOS - Gazebo Integration**:
+```nos
 simulation NavigationSimulation {
     world: "office_building.world"
     physics: { real_time_factor: 1.0, max_step_size: 0.001 }
@@ -965,17 +965,17 @@ simulation NavigationSimulation {
 ### 6.1 Gradual Migration Strategy
 
 ```
-Phase 1: Launch files (.py/.xml -> .flow)
-Phase 2: Node parameters (yaml -> .flow schema)
-Phase 3: New nodes in FlowLang
+Phase 1: Launch files (.py/.xml -> .nos)
+Phase 2: Node parameters (yaml -> .nos schema)
+Phase 3: New nodes in NOS
 Phase 4: Legacy node wrappers
-Phase 5: Full FlowLang adoption
+Phase 5: Full NOS adoption
 ```
 
 ### 6.2 Interoperability Wrappers
 
-**FlowLang - Wrapping Existing Nodes**:
-```flow
+**NOS - Wrapping Existing Nodes**:
+```nos
 external_node LegacyPlanner @package("nav2_planner") {
     executable: "planner_server"
     parameters: {
@@ -984,7 +984,7 @@ external_node LegacyPlanner @package("nav2_planner") {
         tolerance: float = 0.5
     }
     
-    # Map FlowLang types to existing topic names
+    # Map NOS types to existing topic names
     remap {
         input: goal_pose -> "/goal_pose"
         output: plan -> "/plan"
@@ -1027,7 +1027,7 @@ external_node LegacyPlanner @package("nav2_planner") {
 
 ## 8. Summary: Code Comparison Table
 
-| Aspect | Native ROS2 (Python) | FlowLang | Reduction |
+| Aspect | Native ROS2 (Python) | NOS | Reduction |
 |--------|---------------------|----------|-----------|
 | Simple Node | ~60 lines | ~15 lines | 75% |
 | Lifecycle Node | ~120 lines | ~25 lines | 79% |
@@ -1043,8 +1043,8 @@ external_node LegacyPlanner @package("nav2_planner") {
 ## Appendix: Grammar Snippets
 
 ```antlr
-// FlowLang.g4 - Core grammar excerpts
-grammar FlowLang;
+// NOS.g4 - Core grammar excerpts
+grammar NOS;
 
 packageDecl: 'package' identifier version? depends?;
 

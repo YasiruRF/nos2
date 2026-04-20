@@ -1,13 +1,13 @@
-"""Integration tests for FlowLang compiler pipeline."""
+﻿"""Integration tests for NOS compiler pipeline."""
 
 import pytest
-from flowlang.ast.nodes import (
+from nos.ast.nodes import (
     SourceLocation, File, PackageDecl, ImportDecl, NodeDecl, LaunchDecl,
     LiteralExpression
 )
-from flowlang.semantic import SemanticAnalyzer, SymbolTable
-from flowlang.codegen import PythonGenerator, LaunchTranspiler
-from flowlang.compiler.pipeline import CompilerPipeline, CompilationResult
+from nos.semantic import SemanticAnalyzer, SymbolTable
+from nos.codegen import PythonGenerator, LaunchTranspiler
+from nos.compiler.pipeline import CompilerPipeline, CompilationResult
 
 
 class TestCompilerPipeline:
@@ -29,7 +29,7 @@ class TestCompilerPipeline:
     def test_compile_empty_ast(self):
         """Test compilation with minimal AST."""
         pipeline = CompilerPipeline()
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         # Create minimal AST
         file_node = File(
@@ -39,7 +39,7 @@ class TestCompilerPipeline:
             declarations=[]
         )
 
-        result = pipeline.compile_string("", "test.flow")
+        result = pipeline.compile_string("", "test.nos")
         assert isinstance(result, CompilationResult)
 
 
@@ -47,14 +47,14 @@ class TestEndToEndFlow:
     """End-to-end flow tests."""
 
     def test_node_to_python_pipeline(self):
-        """Full pipeline: Node AST → Analysis → Python Code."""
-        from flowlang.ast.nodes import (
+        """Full pipeline: Node AST â†’ Analysis â†’ Python Code."""
+        from nos.ast.nodes import (
             ParameterDecl, PrimitiveType, PrimitiveTypeKind,
             LiteralExpression, CallbackDecl
         )
 
         # 1. Create AST
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         param = ParameterDecl(
             location=loc,
             name="test_param",
@@ -97,11 +97,11 @@ class TestEndToEndFlow:
         assert "test_param" in code
 
     def test_launch_to_python_pipeline(self):
-        """Full pipeline: Launch AST → Analysis → Python Code."""
-        from flowlang.ast.nodes import ArgumentDecl, PrimitiveType, PrimitiveTypeKind
+        """Full pipeline: Launch AST â†’ Analysis â†’ Python Code."""
+        from nos.ast.nodes import ArgumentDecl, PrimitiveType, PrimitiveTypeKind
 
         # 1. Create AST
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
         arg = ArgumentDecl(
             location=loc,
             name="test_arg",
@@ -139,10 +139,10 @@ class TestErrorHandling:
 
     def test_undefined_reference_detection(self):
         """Test detection of undefined references."""
-        from flowlang.semantic.analyzer import ReferenceResolver
-        from flowlang.ast.nodes import IdentifierExpression
+        from nos.semantic.analyzer import ReferenceResolver
+        from nos.ast.nodes import IdentifierExpression
 
-        loc = SourceLocation(10, 5, "test.flow")
+        loc = SourceLocation(10, 5, "test.nos")
         symbol_table = SymbolTable()
         analyzer = SemanticAnalyzer()
 
@@ -170,7 +170,7 @@ class TestMultiFileCompilation:
 
     def test_compile_multiple_nodes(self):
         """Test compiling multiple node definitions."""
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         nodes = []
         for i in range(3):
@@ -202,9 +202,9 @@ class TestRoundTrip:
 
     def test_node_structure_preservation(self):
         """Test that node structure is preserved through pipeline."""
-        from flowlang.ast.nodes import SubscriptionDecl, QualifiedType
+        from nos.ast.nodes import SubscriptionDecl, QualifiedType
 
-        loc = SourceLocation(1, 0, "test.flow")
+        loc = SourceLocation(1, 0, "test.nos")
 
         sub = SubscriptionDecl(
             location=loc,
