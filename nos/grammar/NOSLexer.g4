@@ -1,4 +1,4 @@
-﻿lexer grammar NOSLexer;
+lexer grammar NOSLexer;
 
 channels {
     PYTHON_CHANNEL
@@ -91,7 +91,7 @@ ASSIGN      : '=';
 // Delimiters
 LPAREN      : '(';
 RPAREN      : ')';
-LBRACE      : '{' -> pushMode(PYTHON_MODE);
+LBRACE      : '{';
 RBRACE      : '}';
 LBRACKET    : '[';
 RBRACKET    : ']';
@@ -103,6 +103,7 @@ SCOPE       : '::';
 AT          : '@';
 DOLLAR      : '$';
 ARROW       : '->';
+PYTHON_START: '->' [ \t\r\n]* '{' -> pushMode(PYTHON_MODE);
 
 // Literals
 INT_LITERAL : [0-9]+;

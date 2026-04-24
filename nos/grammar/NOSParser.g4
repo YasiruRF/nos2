@@ -1,4 +1,4 @@
-﻿parser grammar NOSParser;
+parser grammar NOSParser;
 
 options {
     tokenVocab = NOSLexer;
@@ -35,7 +35,7 @@ parameterBlock: PARAMETERS LBRACE parameterDecl* RBRACE;
 parameterDecl:
     identifier COLON typeSpec (ASSIGN expression)? constraint*;
 
-constraint: AT identifier (LPAREN parameterList? RPAREN | expression)?;
+constraint: AT identifier (LPAREN argumentList? RPAREN | expression)?;
 
 // Type definitions
 typeSpec:
@@ -55,7 +55,7 @@ primitiveType:
     | TIME
 ;
 
-fieldDecl: identifier COLON typeSpec (ASSIGN expression)?;
+fieldDecl: identifier COLON typeSpec (ASSIGN expression)? constraint*;
 
 // Communication blocks
 subscriptionBlock: SUBSCRIPTIONS LBRACE subscriptionDecl* RBRACE;
@@ -86,10 +86,10 @@ parameterOverride: identifier COLON expression;
 
 // Callback declarations
 callbackDecl:
-    ON_INIT LBRACE pythonCode RBRACE
-    | ON_SHUTDOWN LBRACE pythonCode RBRACE
-    | ON_PARAMETER_CHANGE LPAREN parameterList? RPAREN LBRACE pythonCode RBRACE
-    | ON identifier LPAREN parameterList? RPAREN LBRACE pythonCode RBRACE
+    ON_INIT PYTHON_START pythonCode RBRACE
+    | ON_SHUTDOWN PYTHON_START pythonCode RBRACE
+    | ON_PARAMETER_CHANGE LPAREN parameterList? RPAREN PYTHON_START pythonCode RBRACE
+    | ON identifier LPAREN parameterList? RPAREN PYTHON_START pythonCode RBRACE
 ;
 
 pythonCode: PYTHON_CODE?;

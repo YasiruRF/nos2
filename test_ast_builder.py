@@ -309,7 +309,7 @@ def test_visitor_methods_exist():
     builder = ASTBuilder()
 
     required_methods = [
-        'visit_FlowFile',
+        'visit_NosFile',
         'visit_PackageDecl',
         'visit_ImportDecl',
         'visit_NodeDecl',

@@ -1,0 +1,6 @@
+package test
+node SimpleNode {
+    parameters {
+        p: int = 1
+    }
+}
