@@ -49,6 +49,18 @@ def create_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        '--no-build',
+        action='store_true',
+        help='Skip automatic colcon build after generation'
+    )
+
+    parser.add_argument(
+        '--no-build-cache',
+        action='store_true',
+        help='Disable build cache (forces colcon build every time)'
+    )
+
+    parser.add_argument(
         '--version',
         action='version',
         version='%(prog)s 0.1.0'
@@ -112,7 +124,9 @@ def main(args: list = None) -> int:
     # Configure pipeline
     options = {
         'target': parsed.target,
-        'verbose': parsed.verbose
+        'verbose': parsed.verbose,
+        'auto_build': not parsed.no_build,
+        'build_cache': not parsed.no_build_cache
     }
 
     pipeline = CompilerPipeline(options)
@@ -131,7 +145,12 @@ def main(args: list = None) -> int:
         if result.success:
             success_count += 1
             if not parsed.dry_run:
-                pipeline.write_outputs(result, parsed.output)
+                wrote = pipeline.write_outputs(result, parsed.output)
+                if not wrote:
+                    print(format_result(result, file_path))
+                    print()
+                    success_count -= 1
+                    failure_count += 1
         else:
             failure_count += 1
 

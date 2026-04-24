@@ -7,7 +7,10 @@ to generated code.
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any
 from pathlib import Path
-import sys
+import hashlib
+import json
+import re
+import subprocess
 
 # ANTLR4 imports
 from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
@@ -95,6 +98,8 @@ class CompilerPipeline:
         self.options = options or {}
         self.verbose = self.options.get('verbose', False)
         self.target = self.options.get('target', 'python')
+        self.auto_build = self.options.get('auto_build', True)
+        self.build_cache = self.options.get('build_cache', True)
 
     def compile_file(self, file_path: str) -> CompilationResult:
         """Compile a single NOS source file.
@@ -308,16 +313,230 @@ class CompilerPipeline:
         output_path.mkdir(parents=True, exist_ok=True)
 
         try:
-            for file_path, content in result.files.items():
-                full_path = output_path / file_path
-                full_path.parent.mkdir(parents=True, exist_ok=True)
-                full_path.write_text(content, encoding='utf-8')
-                if self.verbose:
-                    print(f"  Wrote: {full_path}")
+            if self.target == 'python':
+                workspace_path = output_path / "ros2_ws"
+                package_name = self._extract_package_name(result.ast)
+                package_root = workspace_path / "src" / package_name
+
+                self._generate_ros2_package_scaffold(package_root, package_name, result.files)
+                self._write_ros2_sources(package_root, package_name, result.files)
+
+                if self.auto_build:
+                    fingerprint = self._compute_build_fingerprint(result.files, package_name)
+                    if self._should_run_build(workspace_path, package_name, fingerprint):
+                        self._run_colcon_build(workspace_path, package_name)
+                        self._update_build_cache(workspace_path, package_name, fingerprint)
+                    elif self.verbose:
+                        print(f"  Build cache hit for package '{package_name}', skipping colcon build")
+            else:
+                for file_path, content in result.files.items():
+                    full_path = output_path / file_path
+                    full_path.parent.mkdir(parents=True, exist_ok=True)
+                    full_path.write_text(content, encoding='utf-8')
+                    if self.verbose:
+                        print(f"  Wrote: {full_path}")
             return True
         except Exception as e:
             result.errors.append(f"Failed to write output: {str(e)}")
             return False
+
+    def _extract_package_name(self, ast: Optional[nodes.ASTNode]) -> str:
+        """Extract a valid ROS2 package name from AST."""
+        candidate = "nos_generated"
+
+        if isinstance(ast, nodes.File):
+            if ast.package and ast.package.name:
+                candidate = ast.package.name
+            elif ast.declarations:
+                first_decl = ast.declarations[0]
+                if hasattr(first_decl, 'name') and getattr(first_decl, 'name'):
+                    candidate = getattr(first_decl, 'name')
+        elif ast and hasattr(ast, 'name') and getattr(ast, 'name'):
+            candidate = getattr(ast, 'name')
+
+        sanitized = re.sub(r'[^a-zA-Z0-9_]', '_', candidate).lower()
+        if not sanitized:
+            sanitized = "nos_generated"
+        if sanitized[0].isdigit():
+            sanitized = f"nos_{sanitized}"
+        return sanitized
+
+    def _compute_build_fingerprint(self, files: Dict[str, str], package_name: str) -> str:
+        """Compute deterministic hash for generated outputs used by build cache."""
+        hasher = hashlib.sha256()
+        hasher.update(package_name.encode('utf-8'))
+        hasher.update(self.target.encode('utf-8'))
+
+        for file_path in sorted(files.keys()):
+            hasher.update(file_path.encode('utf-8'))
+            hasher.update(files[file_path].encode('utf-8'))
+
+        return hasher.hexdigest()
+
+    def _build_cache_file(self, workspace_path: Path) -> Path:
+        """Return build cache file path."""
+        return workspace_path / ".nos_build_cache.json"
+
+    def _load_build_cache(self, workspace_path: Path) -> Dict[str, str]:
+        """Load build cache dictionary from disk."""
+        cache_file = self._build_cache_file(workspace_path)
+        if not cache_file.exists():
+            return {}
+        try:
+            return json.loads(cache_file.read_text(encoding='utf-8'))
+        except Exception:
+            return {}
+
+    def _update_build_cache(self, workspace_path: Path, package_name: str, fingerprint: str) -> None:
+        """Persist successful build fingerprint to cache."""
+        cache = self._load_build_cache(workspace_path)
+        cache[package_name] = fingerprint
+        cache_file = self._build_cache_file(workspace_path)
+        cache_file.write_text(json.dumps(cache, indent=2), encoding='utf-8')
+
+    def _should_run_build(self, workspace_path: Path, package_name: str, fingerprint: str) -> bool:
+        """Determine whether colcon build is required."""
+        if not self.build_cache:
+            return True
+
+        cache = self._load_build_cache(workspace_path)
+        cached = cache.get(package_name)
+        install_package = workspace_path / "install" / package_name
+        return cached != fingerprint or not install_package.exists()
+
+    def _run_colcon_build(self, workspace_path: Path, package_name: str) -> None:
+        """Run colcon build for a single package."""
+        if self.verbose:
+            print(f"  Building ROS2 package '{package_name}' with colcon")
+
+        cmd = ["colcon", "build", "--packages-select", package_name]
+        try:
+            proc = subprocess.run(
+                cmd,
+                cwd=str(workspace_path),
+                capture_output=True,
+                text=True,
+                check=False
+            )
+        except FileNotFoundError as exc:
+            raise RuntimeError(
+                "colcon executable not found. Install ROS2/colcon or run with --no-build."
+            ) from exc
+
+        if proc.returncode != 0:
+            stderr = proc.stderr.strip()
+            stdout = proc.stdout.strip()
+            details = stderr or stdout or "Unknown colcon build failure"
+            raise RuntimeError(f"colcon build failed for package '{package_name}': {details}")
+
+        if self.verbose and proc.stdout:
+            print(proc.stdout)
+
+    def _generate_ros2_package_scaffold(self, package_root: Path, package_name: str, files: Dict[str, str]) -> None:
+        """Generate minimal ament_python package scaffolding."""
+        package_module_dir = package_root / package_name
+        launch_dir = package_root / "launch"
+        resource_dir = package_root / "resource"
+
+        package_module_dir.mkdir(parents=True, exist_ok=True)
+        launch_dir.mkdir(parents=True, exist_ok=True)
+        resource_dir.mkdir(parents=True, exist_ok=True)
+
+        entry_points = []
+        for path in sorted(files.keys()):
+            if path.endswith('.py') and not path.endswith('.launch.py'):
+                module = Path(path).stem
+                entry_points.append(f"            '{module} = {package_name}.{module}:main',")
+
+        entry_points_block = "\n".join(entry_points) if entry_points else ""
+
+        package_xml = f"""<?xml version=\"1.0\"?>
+<package format=\"3\">
+  <name>{package_name}</name>
+  <version>0.0.1</version>
+  <description>Auto-generated from NOS</description>
+  <maintainer email=\"nos@local\">NOS</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>nos</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
+"""
+
+        setup_cfg = """[develop]
+script_dir=$base/lib/{package}
+[install]
+install_scripts=$base/lib/{package}
+""".format(package=package_name)
+
+        setup_py = f"""from setuptools import find_packages, setup
+
+package_name = '{package_name}'
+
+setup(
+    name=package_name,
+    version='0.0.1',
+    packages=find_packages(exclude=['test']),
+    data_files=[
+        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/launch', ['launch/' + f for f in []]),
+    ],
+    install_requires=['setuptools'],
+    zip_safe=True,
+    maintainer='NOS',
+    maintainer_email='nos@local',
+    description='Auto-generated ROS2 package from NOS',
+    license='Apache-2.0',
+    tests_require=['pytest'],
+    entry_points={{
+        'console_scripts': [
+{entry_points_block}
+        ],
+    }},
+)
+"""
+
+        (package_root / "package.xml").write_text(package_xml, encoding='utf-8')
+        (package_root / "setup.cfg").write_text(setup_cfg, encoding='utf-8')
+        (package_root / "setup.py").write_text(setup_py, encoding='utf-8')
+        (resource_dir / package_name).write_text("", encoding='utf-8')
+
+        init_file = package_module_dir / "__init__.py"
+        if not init_file.exists():
+            init_file.write_text("", encoding='utf-8')
+
+    def _write_ros2_sources(self, package_root: Path, package_name: str, files: Dict[str, str]) -> None:
+        """Write generated Python and launch files into ROS2 package layout."""
+        package_module_dir = package_root / package_name
+        launch_dir = package_root / "launch"
+
+        launch_files: List[Path] = []
+        for file_path, content in files.items():
+            rel_path = Path(file_path)
+            if file_path.endswith('.launch.py'):
+                target = launch_dir / rel_path.name
+                launch_files.append(target)
+            else:
+                target = package_module_dir / rel_path.name
+
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding='utf-8')
+            if self.verbose:
+                print(f"  Wrote: {target}")
+
+        if launch_files:
+            setup_py_path = package_root / "setup.py"
+            setup_py = setup_py_path.read_text(encoding='utf-8')
+            launch_list = ", ".join([f"'launch/{f.name}'" for f in launch_files])
+            setup_py = setup_py.replace("['launch/' + f for f in []]", f"[{launch_list}]")
+            setup_py_path.write_text(setup_py, encoding='utf-8')
 
     def compile_multiple(self, file_paths: List[str]) -> Dict[str, CompilationResult]:
         """Compile multiple files and return results.
