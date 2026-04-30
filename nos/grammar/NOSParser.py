@@ -10,7 +10,7 @@ else:
 
 def serializedATN():
     return [
-        4,1,96,899,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,96,902,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,
         7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,
@@ -79,50 +79,50 @@ def serializedATN():
         774,9,54,1,54,1,54,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,
         3,55,787,8,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,
         1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,
-        3,55,812,8,55,1,55,5,55,815,8,55,10,55,12,55,818,9,55,1,56,1,56,
-        1,56,1,56,1,56,1,56,3,56,826,8,56,1,57,1,57,1,57,1,57,1,57,1,57,
-        1,57,1,57,3,57,836,8,57,1,57,1,57,1,57,1,57,5,57,842,8,57,10,57,
-        12,57,845,9,57,1,57,3,57,848,8,57,1,58,1,58,1,58,5,58,853,8,58,10,
-        58,12,58,856,9,58,1,59,1,59,1,59,1,59,1,60,1,60,1,60,5,60,865,8,
-        60,10,60,12,60,868,9,60,1,61,1,61,1,61,1,61,1,62,1,62,1,62,5,62,
-        877,8,62,10,62,12,62,880,9,62,1,63,1,63,1,63,3,63,885,8,63,1,63,
-        1,63,1,64,1,64,1,64,5,64,892,8,64,10,64,12,64,895,9,64,1,65,1,65,
-        1,65,0,1,110,66,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,
-        36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,
-        80,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,
-        118,120,122,124,126,128,130,0,6,1,0,41,47,1,0,50,51,1,0,59,60,1,
-        0,62,67,1,0,54,55,1,0,56,58,937,0,133,1,0,0,0,2,151,1,0,0,0,4,159,
-        1,0,0,0,6,162,1,0,0,0,8,175,1,0,0,0,10,181,1,0,0,0,12,188,1,0,0,
-        0,14,214,1,0,0,0,16,224,1,0,0,0,18,237,1,0,0,0,20,263,1,0,0,0,22,
-        265,1,0,0,0,24,267,1,0,0,0,26,280,1,0,0,0,28,290,1,0,0,0,30,304,
-        1,0,0,0,32,314,1,0,0,0,34,328,1,0,0,0,36,338,1,0,0,0,38,352,1,0,
-        0,0,40,362,1,0,0,0,42,371,1,0,0,0,44,375,1,0,0,0,46,385,1,0,0,0,
-        48,397,1,0,0,0,50,432,1,0,0,0,52,435,1,0,0,0,54,437,1,0,0,0,56,444,
-        1,0,0,0,58,473,1,0,0,0,60,483,1,0,0,0,62,496,1,0,0,0,64,512,1,0,
-        0,0,66,549,1,0,0,0,68,551,1,0,0,0,70,555,1,0,0,0,72,571,1,0,0,0,
-        74,597,1,0,0,0,76,599,1,0,0,0,78,610,1,0,0,0,80,614,1,0,0,0,82,624,
-        1,0,0,0,84,637,1,0,0,0,86,648,1,0,0,0,88,664,1,0,0,0,90,675,1,0,
-        0,0,92,684,1,0,0,0,94,686,1,0,0,0,96,702,1,0,0,0,98,714,1,0,0,0,
-        100,724,1,0,0,0,102,734,1,0,0,0,104,747,1,0,0,0,106,757,1,0,0,0,
-        108,767,1,0,0,0,110,786,1,0,0,0,112,825,1,0,0,0,114,847,1,0,0,0,
-        116,849,1,0,0,0,118,857,1,0,0,0,120,861,1,0,0,0,122,869,1,0,0,0,
-        124,873,1,0,0,0,126,884,1,0,0,0,128,888,1,0,0,0,130,896,1,0,0,0,
-        132,134,3,2,1,0,133,132,1,0,0,0,133,134,1,0,0,0,134,138,1,0,0,0,
-        135,137,3,8,4,0,136,135,1,0,0,0,137,140,1,0,0,0,138,136,1,0,0,0,
-        138,139,1,0,0,0,139,146,1,0,0,0,140,138,1,0,0,0,141,145,3,10,5,0,
-        142,145,3,54,27,0,143,145,3,92,46,0,144,141,1,0,0,0,144,142,1,0,
-        0,0,144,143,1,0,0,0,145,148,1,0,0,0,146,144,1,0,0,0,146,147,1,0,
-        0,0,147,149,1,0,0,0,148,146,1,0,0,0,149,150,5,0,0,1,150,1,1,0,0,
-        0,151,152,5,1,0,0,152,154,3,130,65,0,153,155,3,4,2,0,154,153,1,0,
-        0,0,154,155,1,0,0,0,155,157,1,0,0,0,156,158,3,6,3,0,157,156,1,0,
-        0,0,157,158,1,0,0,0,158,3,1,0,0,0,159,160,5,2,0,0,160,161,5,86,0,
-        0,161,5,1,0,0,0,162,163,5,3,0,0,163,164,5,75,0,0,164,165,5,73,0,
-        0,165,170,5,86,0,0,166,167,5,77,0,0,167,169,5,86,0,0,168,166,1,0,
-        0,0,169,172,1,0,0,0,170,168,1,0,0,0,170,171,1,0,0,0,171,173,1,0,
-        0,0,172,170,1,0,0,0,173,174,5,74,0,0,174,7,1,0,0,0,175,176,5,4,0,
-        0,176,179,3,128,64,0,177,178,5,5,0,0,178,180,3,130,65,0,179,177,
-        1,0,0,0,179,180,1,0,0,0,180,9,1,0,0,0,181,182,5,6,0,0,182,183,3,
-        130,65,0,183,184,5,71,0,0,184,185,3,12,6,0,185,186,5,72,0,0,186,
+        1,55,1,55,1,55,3,55,815,8,55,1,55,5,55,818,8,55,10,55,12,55,821,
+        9,55,1,56,1,56,1,56,1,56,1,56,1,56,3,56,829,8,56,1,57,1,57,1,57,
+        1,57,1,57,1,57,1,57,1,57,3,57,839,8,57,1,57,1,57,1,57,1,57,5,57,
+        845,8,57,10,57,12,57,848,9,57,1,57,3,57,851,8,57,1,58,1,58,1,58,
+        5,58,856,8,58,10,58,12,58,859,9,58,1,59,1,59,1,59,1,59,1,60,1,60,
+        1,60,5,60,868,8,60,10,60,12,60,871,9,60,1,61,1,61,1,61,1,61,1,62,
+        1,62,1,62,5,62,880,8,62,10,62,12,62,883,9,62,1,63,1,63,1,63,3,63,
+        888,8,63,1,63,1,63,1,64,1,64,1,64,5,64,895,8,64,10,64,12,64,898,
+        9,64,1,65,1,65,1,65,0,1,110,66,0,2,4,6,8,10,12,14,16,18,20,22,24,
+        26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,
+        70,72,74,76,78,80,82,84,86,88,90,92,94,96,98,100,102,104,106,108,
+        110,112,114,116,118,120,122,124,126,128,130,0,5,1,0,41,47,1,0,50,
+        51,1,0,56,58,1,0,54,55,1,0,62,67,941,0,133,1,0,0,0,2,151,1,0,0,0,
+        4,159,1,0,0,0,6,162,1,0,0,0,8,175,1,0,0,0,10,181,1,0,0,0,12,188,
+        1,0,0,0,14,214,1,0,0,0,16,224,1,0,0,0,18,237,1,0,0,0,20,263,1,0,
+        0,0,22,265,1,0,0,0,24,267,1,0,0,0,26,280,1,0,0,0,28,290,1,0,0,0,
+        30,304,1,0,0,0,32,314,1,0,0,0,34,328,1,0,0,0,36,338,1,0,0,0,38,352,
+        1,0,0,0,40,362,1,0,0,0,42,371,1,0,0,0,44,375,1,0,0,0,46,385,1,0,
+        0,0,48,397,1,0,0,0,50,432,1,0,0,0,52,435,1,0,0,0,54,437,1,0,0,0,
+        56,444,1,0,0,0,58,473,1,0,0,0,60,483,1,0,0,0,62,496,1,0,0,0,64,512,
+        1,0,0,0,66,549,1,0,0,0,68,551,1,0,0,0,70,555,1,0,0,0,72,571,1,0,
+        0,0,74,597,1,0,0,0,76,599,1,0,0,0,78,610,1,0,0,0,80,614,1,0,0,0,
+        82,624,1,0,0,0,84,637,1,0,0,0,86,648,1,0,0,0,88,664,1,0,0,0,90,675,
+        1,0,0,0,92,684,1,0,0,0,94,686,1,0,0,0,96,702,1,0,0,0,98,714,1,0,
+        0,0,100,724,1,0,0,0,102,734,1,0,0,0,104,747,1,0,0,0,106,757,1,0,
+        0,0,108,767,1,0,0,0,110,786,1,0,0,0,112,828,1,0,0,0,114,850,1,0,
+        0,0,116,852,1,0,0,0,118,860,1,0,0,0,120,864,1,0,0,0,122,872,1,0,
+        0,0,124,876,1,0,0,0,126,887,1,0,0,0,128,891,1,0,0,0,130,899,1,0,
+        0,0,132,134,3,2,1,0,133,132,1,0,0,0,133,134,1,0,0,0,134,138,1,0,
+        0,0,135,137,3,8,4,0,136,135,1,0,0,0,137,140,1,0,0,0,138,136,1,0,
+        0,0,138,139,1,0,0,0,139,146,1,0,0,0,140,138,1,0,0,0,141,145,3,10,
+        5,0,142,145,3,54,27,0,143,145,3,92,46,0,144,141,1,0,0,0,144,142,
+        1,0,0,0,144,143,1,0,0,0,145,148,1,0,0,0,146,144,1,0,0,0,146,147,
+        1,0,0,0,147,149,1,0,0,0,148,146,1,0,0,0,149,150,5,0,0,1,150,1,1,
+        0,0,0,151,152,5,1,0,0,152,154,3,130,65,0,153,155,3,4,2,0,154,153,
+        1,0,0,0,154,155,1,0,0,0,155,157,1,0,0,0,156,158,3,6,3,0,157,156,
+        1,0,0,0,157,158,1,0,0,0,158,3,1,0,0,0,159,160,5,2,0,0,160,161,5,
+        86,0,0,161,5,1,0,0,0,162,163,5,3,0,0,163,164,5,75,0,0,164,165,5,
+        73,0,0,165,170,5,86,0,0,166,167,5,77,0,0,167,169,5,86,0,0,168,166,
+        1,0,0,0,169,172,1,0,0,0,170,168,1,0,0,0,170,171,1,0,0,0,171,173,
+        1,0,0,0,172,170,1,0,0,0,173,174,5,74,0,0,174,7,1,0,0,0,175,176,5,
+        4,0,0,176,179,3,128,64,0,177,178,5,5,0,0,178,180,3,130,65,0,179,
+        177,1,0,0,0,179,180,1,0,0,0,180,9,1,0,0,0,181,182,5,6,0,0,182,183,
+        3,130,65,0,183,184,5,71,0,0,184,185,3,12,6,0,185,186,5,72,0,0,186,
         11,1,0,0,0,187,189,3,14,7,0,188,187,1,0,0,0,188,189,1,0,0,0,189,
         191,1,0,0,0,190,192,3,26,13,0,191,190,1,0,0,0,191,192,1,0,0,0,192,
         194,1,0,0,0,193,195,3,30,15,0,194,193,1,0,0,0,194,195,1,0,0,0,195,
@@ -294,48 +294,49 @@ def serializedATN():
         772,1,0,0,0,775,776,5,72,0,0,776,109,1,0,0,0,777,778,6,55,-1,0,778,
         787,3,112,56,0,779,780,5,81,0,0,780,781,5,71,0,0,781,782,3,110,55,
         0,782,783,5,72,0,0,783,787,1,0,0,0,784,785,5,61,0,0,785,787,3,110,
-        55,5,786,777,1,0,0,0,786,779,1,0,0,0,786,784,1,0,0,0,787,816,1,0,
-        0,0,788,789,10,4,0,0,789,790,7,2,0,0,790,815,3,110,55,5,791,792,
-        10,3,0,0,792,793,7,3,0,0,793,815,3,110,55,4,794,795,10,2,0,0,795,
-        796,7,4,0,0,796,815,3,110,55,3,797,798,10,1,0,0,798,799,7,5,0,0,
-        799,815,3,110,55,2,800,801,10,9,0,0,801,802,5,78,0,0,802,815,3,130,
-        65,0,803,804,10,8,0,0,804,805,5,73,0,0,805,806,3,110,55,0,806,807,
-        5,74,0,0,807,815,1,0,0,0,808,809,10,7,0,0,809,811,5,69,0,0,810,812,
-        3,124,62,0,811,810,1,0,0,0,811,812,1,0,0,0,812,813,1,0,0,0,813,815,
-        5,70,0,0,814,788,1,0,0,0,814,791,1,0,0,0,814,794,1,0,0,0,814,797,
-        1,0,0,0,814,800,1,0,0,0,814,803,1,0,0,0,814,808,1,0,0,0,815,818,
-        1,0,0,0,816,814,1,0,0,0,816,817,1,0,0,0,817,111,1,0,0,0,818,816,
-        1,0,0,0,819,826,3,130,65,0,820,826,3,114,57,0,821,822,5,69,0,0,822,
-        823,3,110,55,0,823,824,5,70,0,0,824,826,1,0,0,0,825,819,1,0,0,0,
-        825,820,1,0,0,0,825,821,1,0,0,0,826,113,1,0,0,0,827,848,5,84,0,0,
-        828,848,5,85,0,0,829,848,5,86,0,0,830,848,5,87,0,0,831,848,5,52,
-        0,0,832,848,5,53,0,0,833,835,5,73,0,0,834,836,3,116,58,0,835,834,
-        1,0,0,0,835,836,1,0,0,0,836,837,1,0,0,0,837,848,5,74,0,0,838,839,
-        5,49,0,0,839,843,5,71,0,0,840,842,3,118,59,0,841,840,1,0,0,0,842,
-        845,1,0,0,0,843,841,1,0,0,0,843,844,1,0,0,0,844,846,1,0,0,0,845,
-        843,1,0,0,0,846,848,5,72,0,0,847,827,1,0,0,0,847,828,1,0,0,0,847,
-        829,1,0,0,0,847,830,1,0,0,0,847,831,1,0,0,0,847,832,1,0,0,0,847,
-        833,1,0,0,0,847,838,1,0,0,0,848,115,1,0,0,0,849,854,3,110,55,0,850,
-        851,5,77,0,0,851,853,3,110,55,0,852,850,1,0,0,0,853,856,1,0,0,0,
-        854,852,1,0,0,0,854,855,1,0,0,0,855,117,1,0,0,0,856,854,1,0,0,0,
-        857,858,3,130,65,0,858,859,5,75,0,0,859,860,3,110,55,0,860,119,1,
-        0,0,0,861,866,3,122,61,0,862,863,5,77,0,0,863,865,3,122,61,0,864,
-        862,1,0,0,0,865,868,1,0,0,0,866,864,1,0,0,0,866,867,1,0,0,0,867,
-        121,1,0,0,0,868,866,1,0,0,0,869,870,3,130,65,0,870,871,5,75,0,0,
-        871,872,3,20,10,0,872,123,1,0,0,0,873,878,3,126,63,0,874,875,5,77,
-        0,0,875,877,3,126,63,0,876,874,1,0,0,0,877,880,1,0,0,0,878,876,1,
-        0,0,0,878,879,1,0,0,0,879,125,1,0,0,0,880,878,1,0,0,0,881,882,3,
-        130,65,0,882,883,5,68,0,0,883,885,1,0,0,0,884,881,1,0,0,0,884,885,
-        1,0,0,0,885,886,1,0,0,0,886,887,3,110,55,0,887,127,1,0,0,0,888,893,
-        3,130,65,0,889,890,5,79,0,0,890,892,3,130,65,0,891,889,1,0,0,0,892,
-        895,1,0,0,0,893,891,1,0,0,0,893,894,1,0,0,0,894,129,1,0,0,0,895,
-        893,1,0,0,0,896,897,5,88,0,0,897,131,1,0,0,0,85,133,138,144,146,
-        154,157,170,179,188,191,194,197,200,203,206,211,219,229,234,241,
-        245,259,263,272,277,285,301,309,325,333,349,357,368,380,392,414,
-        425,432,435,444,449,455,461,465,470,478,488,493,507,519,526,535,
-        545,549,566,579,586,594,597,605,620,632,643,659,670,684,697,719,
-        729,752,762,772,786,811,814,816,825,835,843,847,854,866,878,884,
-        893
+        55,6,786,777,1,0,0,0,786,779,1,0,0,0,786,784,1,0,0,0,787,819,1,0,
+        0,0,788,789,10,5,0,0,789,790,7,2,0,0,790,818,3,110,55,6,791,792,
+        10,4,0,0,792,793,7,3,0,0,793,818,3,110,55,5,794,795,10,3,0,0,795,
+        796,7,4,0,0,796,818,3,110,55,4,797,798,10,2,0,0,798,799,5,59,0,0,
+        799,818,3,110,55,3,800,801,10,1,0,0,801,802,5,60,0,0,802,818,3,110,
+        55,2,803,804,10,10,0,0,804,805,5,78,0,0,805,818,3,130,65,0,806,807,
+        10,9,0,0,807,808,5,73,0,0,808,809,3,110,55,0,809,810,5,74,0,0,810,
+        818,1,0,0,0,811,812,10,8,0,0,812,814,5,69,0,0,813,815,3,124,62,0,
+        814,813,1,0,0,0,814,815,1,0,0,0,815,816,1,0,0,0,816,818,5,70,0,0,
+        817,788,1,0,0,0,817,791,1,0,0,0,817,794,1,0,0,0,817,797,1,0,0,0,
+        817,800,1,0,0,0,817,803,1,0,0,0,817,806,1,0,0,0,817,811,1,0,0,0,
+        818,821,1,0,0,0,819,817,1,0,0,0,819,820,1,0,0,0,820,111,1,0,0,0,
+        821,819,1,0,0,0,822,829,3,130,65,0,823,829,3,114,57,0,824,825,5,
+        69,0,0,825,826,3,110,55,0,826,827,5,70,0,0,827,829,1,0,0,0,828,822,
+        1,0,0,0,828,823,1,0,0,0,828,824,1,0,0,0,829,113,1,0,0,0,830,851,
+        5,84,0,0,831,851,5,85,0,0,832,851,5,86,0,0,833,851,5,87,0,0,834,
+        851,5,52,0,0,835,851,5,53,0,0,836,838,5,73,0,0,837,839,3,116,58,
+        0,838,837,1,0,0,0,838,839,1,0,0,0,839,840,1,0,0,0,840,851,5,74,0,
+        0,841,842,5,49,0,0,842,846,5,71,0,0,843,845,3,118,59,0,844,843,1,
+        0,0,0,845,848,1,0,0,0,846,844,1,0,0,0,846,847,1,0,0,0,847,849,1,
+        0,0,0,848,846,1,0,0,0,849,851,5,72,0,0,850,830,1,0,0,0,850,831,1,
+        0,0,0,850,832,1,0,0,0,850,833,1,0,0,0,850,834,1,0,0,0,850,835,1,
+        0,0,0,850,836,1,0,0,0,850,841,1,0,0,0,851,115,1,0,0,0,852,857,3,
+        110,55,0,853,854,5,77,0,0,854,856,3,110,55,0,855,853,1,0,0,0,856,
+        859,1,0,0,0,857,855,1,0,0,0,857,858,1,0,0,0,858,117,1,0,0,0,859,
+        857,1,0,0,0,860,861,3,130,65,0,861,862,5,75,0,0,862,863,3,110,55,
+        0,863,119,1,0,0,0,864,869,3,122,61,0,865,866,5,77,0,0,866,868,3,
+        122,61,0,867,865,1,0,0,0,868,871,1,0,0,0,869,867,1,0,0,0,869,870,
+        1,0,0,0,870,121,1,0,0,0,871,869,1,0,0,0,872,873,3,130,65,0,873,874,
+        5,75,0,0,874,875,3,20,10,0,875,123,1,0,0,0,876,881,3,126,63,0,877,
+        878,5,77,0,0,878,880,3,126,63,0,879,877,1,0,0,0,880,883,1,0,0,0,
+        881,879,1,0,0,0,881,882,1,0,0,0,882,125,1,0,0,0,883,881,1,0,0,0,
+        884,885,3,130,65,0,885,886,5,68,0,0,886,888,1,0,0,0,887,884,1,0,
+        0,0,887,888,1,0,0,0,888,889,1,0,0,0,889,890,3,110,55,0,890,127,1,
+        0,0,0,891,896,3,130,65,0,892,893,5,79,0,0,893,895,3,130,65,0,894,
+        892,1,0,0,0,895,898,1,0,0,0,896,894,1,0,0,0,896,897,1,0,0,0,897,
+        129,1,0,0,0,898,896,1,0,0,0,899,900,5,88,0,0,900,131,1,0,0,0,85,
+        133,138,144,146,154,157,170,179,188,191,194,197,200,203,206,211,
+        219,229,234,241,245,259,263,272,277,285,301,309,325,333,349,357,
+        368,380,392,414,425,432,435,444,449,455,461,465,470,478,488,493,
+        507,519,526,535,545,549,566,579,586,594,597,605,620,632,643,659,
+        670,684,697,719,729,752,762,772,786,814,817,819,828,838,846,850,
+        857,869,881,887,896
     ]
 
 class NOSParser ( Parser ):
@@ -5413,15 +5414,20 @@ class NOSParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def primaryExpression(self):
-            return self.getTypedRuleContext(NOSParser.PrimaryExpressionContext,0)
+
+        def getRuleIndex(self):
+            return NOSParser.RULE_expression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
 
-        def DOLLAR(self):
-            return self.getToken(NOSParser.DOLLAR, 0)
+    class MultiplicativeExprContext(ExpressionContext):
 
-        def LBRACE(self):
-            return self.getToken(NOSParser.LBRACE, 0)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def expression(self, i:int=None):
             if i is None:
@@ -5429,89 +5435,333 @@ class NOSParser ( Parser ):
             else:
                 return self.getTypedRuleContext(NOSParser.ExpressionContext,i)
 
+        def STAR(self):
+            return self.getToken(NOSParser.STAR, 0)
+        def SLASH(self):
+            return self.getToken(NOSParser.SLASH, 0)
+        def MOD(self):
+            return self.getToken(NOSParser.MOD, 0)
 
-        def RBRACE(self):
-            return self.getToken(NOSParser.RBRACE, 0)
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterMultiplicativeExpr" ):
+                listener.enterMultiplicativeExpr(self)
 
-        def NOT(self):
-            return self.getToken(NOSParser.NOT, 0)
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitMultiplicativeExpr" ):
+                listener.exitMultiplicativeExpr(self)
 
-        def AND(self):
-            return self.getToken(NOSParser.AND, 0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMultiplicativeExpr" ):
+                return visitor.visitMultiplicativeExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class LogicalOrExprContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(NOSParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(NOSParser.ExpressionContext,i)
 
         def OR(self):
             return self.getToken(NOSParser.OR, 0)
 
-        def EQ(self):
-            return self.getToken(NOSParser.EQ, 0)
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterLogicalOrExpr" ):
+                listener.enterLogicalOrExpr(self)
 
-        def NEQ(self):
-            return self.getToken(NOSParser.NEQ, 0)
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitLogicalOrExpr" ):
+                listener.exitLogicalOrExpr(self)
 
-        def LT(self):
-            return self.getToken(NOSParser.LT, 0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLogicalOrExpr" ):
+                return visitor.visitLogicalOrExpr(self)
+            else:
+                return visitor.visitChildren(self)
 
-        def GT(self):
-            return self.getToken(NOSParser.GT, 0)
 
-        def LE(self):
-            return self.getToken(NOSParser.LE, 0)
+    class AdditiveExprContext(ExpressionContext):
 
-        def GE(self):
-            return self.getToken(NOSParser.GE, 0)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(NOSParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(NOSParser.ExpressionContext,i)
 
         def PLUS(self):
             return self.getToken(NOSParser.PLUS, 0)
-
         def MINUS(self):
             return self.getToken(NOSParser.MINUS, 0)
 
-        def STAR(self):
-            return self.getToken(NOSParser.STAR, 0)
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterAdditiveExpr" ):
+                listener.enterAdditiveExpr(self)
 
-        def SLASH(self):
-            return self.getToken(NOSParser.SLASH, 0)
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitAdditiveExpr" ):
+                listener.exitAdditiveExpr(self)
 
-        def MOD(self):
-            return self.getToken(NOSParser.MOD, 0)
-
-        def DOT(self):
-            return self.getToken(NOSParser.DOT, 0)
-
-        def identifier(self):
-            return self.getTypedRuleContext(NOSParser.IdentifierContext,0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAdditiveExpr" ):
+                return visitor.visitAdditiveExpr(self)
+            else:
+                return visitor.visitChildren(self)
 
 
-        def LBRACKET(self):
-            return self.getToken(NOSParser.LBRACKET, 0)
+    class PrimaryExprContext(ExpressionContext):
 
-        def RBRACKET(self):
-            return self.getToken(NOSParser.RBRACKET, 0)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def primaryExpression(self):
+            return self.getTypedRuleContext(NOSParser.PrimaryExpressionContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterPrimaryExpr" ):
+                listener.enterPrimaryExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitPrimaryExpr" ):
+                listener.exitPrimaryExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimaryExpr" ):
+                return visitor.visitPrimaryExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class InterpolatedExprContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def DOLLAR(self):
+            return self.getToken(NOSParser.DOLLAR, 0)
+        def LBRACE(self):
+            return self.getToken(NOSParser.LBRACE, 0)
+        def expression(self):
+            return self.getTypedRuleContext(NOSParser.ExpressionContext,0)
+
+        def RBRACE(self):
+            return self.getToken(NOSParser.RBRACE, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterInterpolatedExpr" ):
+                listener.enterInterpolatedExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitInterpolatedExpr" ):
+                listener.exitInterpolatedExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInterpolatedExpr" ):
+                return visitor.visitInterpolatedExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class CallExprContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self):
+            return self.getTypedRuleContext(NOSParser.ExpressionContext,0)
 
         def LPAREN(self):
             return self.getToken(NOSParser.LPAREN, 0)
-
         def RPAREN(self):
             return self.getToken(NOSParser.RPAREN, 0)
-
         def argumentList(self):
             return self.getTypedRuleContext(NOSParser.ArgumentListContext,0)
 
 
-        def getRuleIndex(self):
-            return NOSParser.RULE_expression
-
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpression" ):
-                listener.enterExpression(self)
+            if hasattr( listener, "enterCallExpr" ):
+                listener.enterCallExpr(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpression" ):
-                listener.exitExpression(self)
+            if hasattr( listener, "exitCallExpr" ):
+                listener.exitCallExpr(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitExpression" ):
-                return visitor.visitExpression(self)
+            if hasattr( visitor, "visitCallExpr" ):
+                return visitor.visitCallExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class RelationalExprContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(NOSParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(NOSParser.ExpressionContext,i)
+
+        def EQ(self):
+            return self.getToken(NOSParser.EQ, 0)
+        def NEQ(self):
+            return self.getToken(NOSParser.NEQ, 0)
+        def LT(self):
+            return self.getToken(NOSParser.LT, 0)
+        def GT(self):
+            return self.getToken(NOSParser.GT, 0)
+        def LE(self):
+            return self.getToken(NOSParser.LE, 0)
+        def GE(self):
+            return self.getToken(NOSParser.GE, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterRelationalExpr" ):
+                listener.enterRelationalExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitRelationalExpr" ):
+                listener.exitRelationalExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRelationalExpr" ):
+                return visitor.visitRelationalExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class MemberAccessExprContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self):
+            return self.getTypedRuleContext(NOSParser.ExpressionContext,0)
+
+        def DOT(self):
+            return self.getToken(NOSParser.DOT, 0)
+        def identifier(self):
+            return self.getTypedRuleContext(NOSParser.IdentifierContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterMemberAccessExpr" ):
+                listener.enterMemberAccessExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitMemberAccessExpr" ):
+                listener.exitMemberAccessExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMemberAccessExpr" ):
+                return visitor.visitMemberAccessExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class UnaryExprContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def NOT(self):
+            return self.getToken(NOSParser.NOT, 0)
+        def expression(self):
+            return self.getTypedRuleContext(NOSParser.ExpressionContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterUnaryExpr" ):
+                listener.enterUnaryExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitUnaryExpr" ):
+                listener.exitUnaryExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnaryExpr" ):
+                return visitor.visitUnaryExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class LogicalAndExprContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(NOSParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(NOSParser.ExpressionContext,i)
+
+        def AND(self):
+            return self.getToken(NOSParser.AND, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterLogicalAndExpr" ):
+                listener.enterLogicalAndExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitLogicalAndExpr" ):
+                listener.exitLogicalAndExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLogicalAndExpr" ):
+                return visitor.visitLogicalAndExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class IndexExprContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a NOSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(NOSParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(NOSParser.ExpressionContext,i)
+
+        def LBRACKET(self):
+            return self.getToken(NOSParser.LBRACKET, 0)
+        def RBRACKET(self):
+            return self.getToken(NOSParser.RBRACKET, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterIndexExpr" ):
+                listener.enterIndexExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitIndexExpr" ):
+                listener.exitIndexExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIndexExpr" ):
+                return visitor.visitIndexExpr(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -5531,10 +5781,17 @@ class NOSParser ( Parser ):
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [49, 52, 53, 69, 73, 84, 85, 86, 87, 88]:
+                localctx = NOSParser.PrimaryExprContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
+
                 self.state = 778
                 self.primaryExpression()
                 pass
             elif token in [81]:
+                localctx = NOSParser.InterpolatedExprContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 779
                 self.match(NOSParser.DOLLAR)
                 self.state = 780
@@ -5545,16 +5802,19 @@ class NOSParser ( Parser ):
                 self.match(NOSParser.RBRACE)
                 pass
             elif token in [61]:
+                localctx = NOSParser.UnaryExprContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 784
                 self.match(NOSParser.NOT)
                 self.state = 785
-                self.expression(5)
+                self.expression(6)
                 pass
             else:
                 raise NoViableAltException(self)
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 816
+            self.state = 819
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,75,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -5562,132 +5822,140 @@ class NOSParser ( Parser ):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 814
+                    self.state = 817
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,74,self._ctx)
                     if la_ == 1:
-                        localctx = NOSParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = NOSParser.MultiplicativeExprContext(self, NOSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 788
-                        if not self.precpred(self._ctx, 4):
+                        if not self.precpred(self._ctx, 5):
                             from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
                         self.state = 789
-                        _la = self._input.LA(1)
-                        if not(_la==59 or _la==60):
-                            self._errHandler.recoverInline(self)
-                        else:
-                            self._errHandler.reportMatch(self)
-                            self.consume()
-                        self.state = 790
-                        self.expression(5)
-                        pass
-
-                    elif la_ == 2:
-                        localctx = NOSParser.ExpressionContext(self, _parentctx, _parentState)
-                        self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 791
-                        if not self.precpred(self._ctx, 3):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
-                        self.state = 792
-                        _la = self._input.LA(1)
-                        if not(((((_la - 62)) & ~0x3f) == 0 and ((1 << (_la - 62)) & 63) != 0)):
-                            self._errHandler.recoverInline(self)
-                        else:
-                            self._errHandler.reportMatch(self)
-                            self.consume()
-                        self.state = 793
-                        self.expression(4)
-                        pass
-
-                    elif la_ == 3:
-                        localctx = NOSParser.ExpressionContext(self, _parentctx, _parentState)
-                        self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 794
-                        if not self.precpred(self._ctx, 2):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
-                        self.state = 795
-                        _la = self._input.LA(1)
-                        if not(_la==54 or _la==55):
-                            self._errHandler.recoverInline(self)
-                        else:
-                            self._errHandler.reportMatch(self)
-                            self.consume()
-                        self.state = 796
-                        self.expression(3)
-                        pass
-
-                    elif la_ == 4:
-                        localctx = NOSParser.ExpressionContext(self, _parentctx, _parentState)
-                        self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 797
-                        if not self.precpred(self._ctx, 1):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 1)")
-                        self.state = 798
                         _la = self._input.LA(1)
                         if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 504403158265495552) != 0)):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
+                        self.state = 790
+                        self.expression(6)
+                        pass
+
+                    elif la_ == 2:
+                        localctx = NOSParser.AdditiveExprContext(self, NOSParser.ExpressionContext(self, _parentctx, _parentState))
+                        self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
+                        self.state = 791
+                        if not self.precpred(self._ctx, 4):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
+                        self.state = 792
+                        _la = self._input.LA(1)
+                        if not(_la==54 or _la==55):
+                            self._errHandler.recoverInline(self)
+                        else:
+                            self._errHandler.reportMatch(self)
+                            self.consume()
+                        self.state = 793
+                        self.expression(5)
+                        pass
+
+                    elif la_ == 3:
+                        localctx = NOSParser.RelationalExprContext(self, NOSParser.ExpressionContext(self, _parentctx, _parentState))
+                        self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
+                        self.state = 794
+                        if not self.precpred(self._ctx, 3):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
+                        self.state = 795
+                        _la = self._input.LA(1)
+                        if not(((((_la - 62)) & ~0x3f) == 0 and ((1 << (_la - 62)) & 63) != 0)):
+                            self._errHandler.recoverInline(self)
+                        else:
+                            self._errHandler.reportMatch(self)
+                            self.consume()
+                        self.state = 796
+                        self.expression(4)
+                        pass
+
+                    elif la_ == 4:
+                        localctx = NOSParser.LogicalAndExprContext(self, NOSParser.ExpressionContext(self, _parentctx, _parentState))
+                        self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
+                        self.state = 797
+                        if not self.precpred(self._ctx, 2):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
+                        self.state = 798
+                        self.match(NOSParser.AND)
                         self.state = 799
-                        self.expression(2)
+                        self.expression(3)
                         pass
 
                     elif la_ == 5:
-                        localctx = NOSParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = NOSParser.LogicalOrExprContext(self, NOSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 800
-                        if not self.precpred(self._ctx, 9):
+                        if not self.precpred(self._ctx, 1):
                             from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 9)")
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 1)")
                         self.state = 801
-                        self.match(NOSParser.DOT)
+                        self.match(NOSParser.OR)
                         self.state = 802
-                        self.identifier()
+                        self.expression(2)
                         pass
 
                     elif la_ == 6:
-                        localctx = NOSParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = NOSParser.MemberAccessExprContext(self, NOSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 803
-                        if not self.precpred(self._ctx, 8):
+                        if not self.precpred(self._ctx, 10):
                             from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 8)")
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 10)")
                         self.state = 804
-                        self.match(NOSParser.LBRACKET)
+                        self.match(NOSParser.DOT)
                         self.state = 805
-                        self.expression(0)
-                        self.state = 806
-                        self.match(NOSParser.RBRACKET)
+                        self.identifier()
                         pass
 
                     elif la_ == 7:
-                        localctx = NOSParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = NOSParser.IndexExprContext(self, NOSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 808
-                        if not self.precpred(self._ctx, 7):
+                        self.state = 806
+                        if not self.precpred(self._ctx, 9):
                             from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 9)")
+                        self.state = 807
+                        self.match(NOSParser.LBRACKET)
+                        self.state = 808
+                        self.expression(0)
                         self.state = 809
-                        self.match(NOSParser.LPAREN)
+                        self.match(NOSParser.RBRACKET)
+                        pass
+
+                    elif la_ == 8:
+                        localctx = NOSParser.CallExprContext(self, NOSParser.ExpressionContext(self, _parentctx, _parentState))
+                        self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 811
+                        if not self.precpred(self._ctx, 8):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 8)")
+                        self.state = 812
+                        self.match(NOSParser.LPAREN)
+                        self.state = 814
                         self._errHandler.sync(self)
                         _la = self._input.LA(1)
                         if ((((_la - 49)) & ~0x3f) == 0 and ((1 << (_la - 49)) & 1069464686617) != 0):
-                            self.state = 810
+                            self.state = 813
                             self.argumentList()
 
 
-                        self.state = 813
+                        self.state = 816
                         self.match(NOSParser.RPAREN)
                         pass
 
              
-                self.state = 818
+                self.state = 821
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,75,self._ctx)
 
@@ -5750,26 +6018,26 @@ class NOSParser ( Parser ):
         localctx = NOSParser.PrimaryExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 112, self.RULE_primaryExpression)
         try:
-            self.state = 825
+            self.state = 828
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [88]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 819
+                self.state = 822
                 self.identifier()
                 pass
             elif token in [49, 52, 53, 73, 84, 85, 86, 87]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 820
+                self.state = 823
                 self.literal()
                 pass
             elif token in [69]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 821
+                self.state = 824
                 self.match(NOSParser.LPAREN)
-                self.state = 822
+                self.state = 825
                 self.expression(0)
-                self.state = 823
+                self.state = 826
                 self.match(NOSParser.RPAREN)
                 pass
             else:
@@ -5861,71 +6129,71 @@ class NOSParser ( Parser ):
         self.enterRule(localctx, 114, self.RULE_literal)
         self._la = 0 # Token type
         try:
-            self.state = 847
+            self.state = 850
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [84]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 827
+                self.state = 830
                 self.match(NOSParser.INT_LITERAL)
                 pass
             elif token in [85]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 828
+                self.state = 831
                 self.match(NOSParser.FLOAT_LITERAL)
                 pass
             elif token in [86]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 829
+                self.state = 832
                 self.match(NOSParser.STRING_LITERAL)
                 pass
             elif token in [87]:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 830
+                self.state = 833
                 self.match(NOSParser.DURATION_LITERAL)
                 pass
             elif token in [52]:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 831
+                self.state = 834
                 self.match(NOSParser.TRUE)
                 pass
             elif token in [53]:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 832
+                self.state = 835
                 self.match(NOSParser.FALSE)
                 pass
             elif token in [73]:
                 self.enterOuterAlt(localctx, 7)
-                self.state = 833
+                self.state = 836
                 self.match(NOSParser.LBRACKET)
-                self.state = 835
+                self.state = 838
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if ((((_la - 49)) & ~0x3f) == 0 and ((1 << (_la - 49)) & 1069464686617) != 0):
-                    self.state = 834
+                    self.state = 837
                     self.expressionList()
 
 
-                self.state = 837
+                self.state = 840
                 self.match(NOSParser.RBRACKET)
                 pass
             elif token in [49]:
                 self.enterOuterAlt(localctx, 8)
-                self.state = 838
+                self.state = 841
                 self.match(NOSParser.STRUCT)
-                self.state = 839
+                self.state = 842
                 self.match(NOSParser.LBRACE)
-                self.state = 843
+                self.state = 846
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while _la==88:
-                    self.state = 840
+                    self.state = 843
                     self.fieldInitializer()
-                    self.state = 845
+                    self.state = 848
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
-                self.state = 846
+                self.state = 849
                 self.match(NOSParser.RBRACE)
                 pass
             else:
@@ -5987,17 +6255,17 @@ class NOSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 849
+            self.state = 852
             self.expression(0)
-            self.state = 854
+            self.state = 857
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==77:
-                self.state = 850
+                self.state = 853
                 self.match(NOSParser.COMMA)
-                self.state = 851
+                self.state = 854
                 self.expression(0)
-                self.state = 856
+                self.state = 859
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -6054,11 +6322,11 @@ class NOSParser ( Parser ):
         self.enterRule(localctx, 118, self.RULE_fieldInitializer)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 857
+            self.state = 860
             self.identifier()
-            self.state = 858
+            self.state = 861
             self.match(NOSParser.COLON)
-            self.state = 859
+            self.state = 862
             self.expression(0)
         except RecognitionException as re:
             localctx.exception = re
@@ -6116,17 +6384,17 @@ class NOSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 861
+            self.state = 864
             self.parameter()
-            self.state = 866
+            self.state = 869
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==77:
-                self.state = 862
+                self.state = 865
                 self.match(NOSParser.COMMA)
-                self.state = 863
+                self.state = 866
                 self.parameter()
-                self.state = 868
+                self.state = 871
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -6183,11 +6451,11 @@ class NOSParser ( Parser ):
         self.enterRule(localctx, 122, self.RULE_parameter)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 869
+            self.state = 872
             self.identifier()
-            self.state = 870
+            self.state = 873
             self.match(NOSParser.COLON)
-            self.state = 871
+            self.state = 874
             self.typeSpec()
         except RecognitionException as re:
             localctx.exception = re
@@ -6245,17 +6513,17 @@ class NOSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 873
+            self.state = 876
             self.argument()
-            self.state = 878
+            self.state = 881
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==77:
-                self.state = 874
+                self.state = 877
                 self.match(NOSParser.COMMA)
-                self.state = 875
+                self.state = 878
                 self.argument()
-                self.state = 880
+                self.state = 883
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -6312,17 +6580,17 @@ class NOSParser ( Parser ):
         self.enterRule(localctx, 126, self.RULE_argument)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 884
+            self.state = 887
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,83,self._ctx)
             if la_ == 1:
-                self.state = 881
+                self.state = 884
                 self.identifier()
-                self.state = 882
+                self.state = 885
                 self.match(NOSParser.ASSIGN)
 
 
-            self.state = 886
+            self.state = 889
             self.expression(0)
         except RecognitionException as re:
             localctx.exception = re
@@ -6380,17 +6648,17 @@ class NOSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 888
+            self.state = 891
             self.identifier()
-            self.state = 893
+            self.state = 896
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==79:
-                self.state = 889
+                self.state = 892
                 self.match(NOSParser.SCOPE)
-                self.state = 890
+                self.state = 893
                 self.identifier()
-                self.state = 895
+                self.state = 898
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -6439,7 +6707,7 @@ class NOSParser ( Parser ):
         self.enterRule(localctx, 130, self.RULE_identifier)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 896
+            self.state = 899
             self.match(NOSParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
@@ -6463,31 +6731,35 @@ class NOSParser ( Parser ):
 
     def expression_sempred(self, localctx:ExpressionContext, predIndex:int):
             if predIndex == 0:
-                return self.precpred(self._ctx, 4)
+                return self.precpred(self._ctx, 5)
          
 
             if predIndex == 1:
-                return self.precpred(self._ctx, 3)
+                return self.precpred(self._ctx, 4)
          
 
             if predIndex == 2:
-                return self.precpred(self._ctx, 2)
+                return self.precpred(self._ctx, 3)
          
 
             if predIndex == 3:
-                return self.precpred(self._ctx, 1)
+                return self.precpred(self._ctx, 2)
          
 
             if predIndex == 4:
-                return self.precpred(self._ctx, 9)
+                return self.precpred(self._ctx, 1)
          
 
             if predIndex == 5:
-                return self.precpred(self._ctx, 8)
+                return self.precpred(self._ctx, 10)
          
 
             if predIndex == 6:
-                return self.precpred(self._ctx, 7)
+                return self.precpred(self._ctx, 9)
+         
+
+            if predIndex == 7:
+                return self.precpred(self._ctx, 8)
          
 
 

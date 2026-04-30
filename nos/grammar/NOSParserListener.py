@@ -503,12 +503,102 @@ class NOSParserListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by NOSParser#expression.
-    def enterExpression(self, ctx:NOSParser.ExpressionContext):
+    # Enter a parse tree produced by NOSParser#MultiplicativeExpr.
+    def enterMultiplicativeExpr(self, ctx:NOSParser.MultiplicativeExprContext):
         pass
 
-    # Exit a parse tree produced by NOSParser#expression.
-    def exitExpression(self, ctx:NOSParser.ExpressionContext):
+    # Exit a parse tree produced by NOSParser#MultiplicativeExpr.
+    def exitMultiplicativeExpr(self, ctx:NOSParser.MultiplicativeExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#LogicalOrExpr.
+    def enterLogicalOrExpr(self, ctx:NOSParser.LogicalOrExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#LogicalOrExpr.
+    def exitLogicalOrExpr(self, ctx:NOSParser.LogicalOrExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#AdditiveExpr.
+    def enterAdditiveExpr(self, ctx:NOSParser.AdditiveExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#AdditiveExpr.
+    def exitAdditiveExpr(self, ctx:NOSParser.AdditiveExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#PrimaryExpr.
+    def enterPrimaryExpr(self, ctx:NOSParser.PrimaryExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#PrimaryExpr.
+    def exitPrimaryExpr(self, ctx:NOSParser.PrimaryExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#InterpolatedExpr.
+    def enterInterpolatedExpr(self, ctx:NOSParser.InterpolatedExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#InterpolatedExpr.
+    def exitInterpolatedExpr(self, ctx:NOSParser.InterpolatedExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#CallExpr.
+    def enterCallExpr(self, ctx:NOSParser.CallExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#CallExpr.
+    def exitCallExpr(self, ctx:NOSParser.CallExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#RelationalExpr.
+    def enterRelationalExpr(self, ctx:NOSParser.RelationalExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#RelationalExpr.
+    def exitRelationalExpr(self, ctx:NOSParser.RelationalExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#MemberAccessExpr.
+    def enterMemberAccessExpr(self, ctx:NOSParser.MemberAccessExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#MemberAccessExpr.
+    def exitMemberAccessExpr(self, ctx:NOSParser.MemberAccessExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#UnaryExpr.
+    def enterUnaryExpr(self, ctx:NOSParser.UnaryExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#UnaryExpr.
+    def exitUnaryExpr(self, ctx:NOSParser.UnaryExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#LogicalAndExpr.
+    def enterLogicalAndExpr(self, ctx:NOSParser.LogicalAndExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#LogicalAndExpr.
+    def exitLogicalAndExpr(self, ctx:NOSParser.LogicalAndExprContext):
+        pass
+
+
+    # Enter a parse tree produced by NOSParser#IndexExpr.
+    def enterIndexExpr(self, ctx:NOSParser.IndexExprContext):
+        pass
+
+    # Exit a parse tree produced by NOSParser#IndexExpr.
+    def exitIndexExpr(self, ctx:NOSParser.IndexExprContext):
         pass
 
 

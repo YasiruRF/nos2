@@ -284,8 +284,58 @@ class NOSParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by NOSParser#expression.
-    def visitExpression(self, ctx:NOSParser.ExpressionContext):
+    # Visit a parse tree produced by NOSParser#MultiplicativeExpr.
+    def visitMultiplicativeExpr(self, ctx:NOSParser.MultiplicativeExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#LogicalOrExpr.
+    def visitLogicalOrExpr(self, ctx:NOSParser.LogicalOrExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#AdditiveExpr.
+    def visitAdditiveExpr(self, ctx:NOSParser.AdditiveExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#PrimaryExpr.
+    def visitPrimaryExpr(self, ctx:NOSParser.PrimaryExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#InterpolatedExpr.
+    def visitInterpolatedExpr(self, ctx:NOSParser.InterpolatedExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#CallExpr.
+    def visitCallExpr(self, ctx:NOSParser.CallExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#RelationalExpr.
+    def visitRelationalExpr(self, ctx:NOSParser.RelationalExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#MemberAccessExpr.
+    def visitMemberAccessExpr(self, ctx:NOSParser.MemberAccessExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#UnaryExpr.
+    def visitUnaryExpr(self, ctx:NOSParser.UnaryExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#LogicalAndExpr.
+    def visitLogicalAndExpr(self, ctx:NOSParser.LogicalAndExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by NOSParser#IndexExpr.
+    def visitIndexExpr(self, ctx:NOSParser.IndexExprContext):
         return self.visitChildren(ctx)
 
 

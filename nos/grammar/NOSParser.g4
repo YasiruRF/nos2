@@ -174,16 +174,17 @@ resultBlock: RESULT LBRACE fieldDecl* RBRACE;
 
 // Expressions
 expression:
-    primaryExpression
-    | expression DOT identifier
-    | expression LBRACKET expression RBRACKET
-    | expression LPAREN argumentList? RPAREN
-    | DOLLAR LBRACE expression RBRACE
-    | NOT expression
-    | expression (AND | OR) expression
-    | expression (EQ | NEQ | LT | GT | LE | GE) expression
-    | expression (PLUS | MINUS) expression
-    | expression (STAR | SLASH | MOD) expression
+    primaryExpression                         # PrimaryExpr
+    | expression DOT identifier               # MemberAccessExpr
+    | expression LBRACKET expression RBRACKET # IndexExpr
+    | expression LPAREN argumentList? RPAREN  # CallExpr
+    | DOLLAR LBRACE expression RBRACE         # InterpolatedExpr
+    | NOT expression                          # UnaryExpr
+    | expression (STAR | SLASH | MOD) expression # MultiplicativeExpr
+    | expression (PLUS | MINUS) expression    # AdditiveExpr
+    | expression (EQ | NEQ | LT | GT | LE | GE) expression # RelationalExpr
+    | expression AND expression               # LogicalAndExpr
+    | expression OR expression                # LogicalOrExpr
 ;
 
 primaryExpression:

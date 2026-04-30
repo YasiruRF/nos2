@@ -12,9 +12,13 @@ NOS reduces ROS2 boilerplate by 70-80% while maintaining full compatibility with
 
 - **Declarative syntax** for node, topic, and parameter definitions
 - **Type-safe interfaces** with compile-time validation
+- **Robust Expression Parsing**: Full support for mathematical and logical operators with standard precedence.
 - **Lifecycle management** integrated into the language
 - **Launch file generation** from unified definitions
 - **Code generation** for both Python and C++ (C++ in Phase 2)
+
+## Current Progress
+For detailed status on implementation, testing, and roadmap, see [progress.md](progress.md).
 
 ### Why NOS?
 

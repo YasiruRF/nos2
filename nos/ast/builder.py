@@ -298,90 +298,121 @@ class ASTBuilder:
     # Expressions
     # ==========================================================================
 
+    # ==========================================================================
+    # Expressions
+    # ==========================================================================
+
     def visit_expression(self, ctx) -> nodes.Expression:
-        """Visit expression."""
-        if ctx is None:
-            return nodes.LiteralExpression(
-                location=nodes.SourceLocation(0, 0, self.file_name),
-                value=None,
-                literal_type="null"
-            )
-
-        text = self._get_text(ctx)
-
-        # Handle literals based on token attributes
-        if hasattr(ctx, 'INT_LITERAL') and ctx.INT_LITERAL() is not None:
-            val = ctx.INT_LITERAL().getText()
-            return nodes.LiteralExpression(
-                location=self._loc(ctx),
-                value=int(val),
-                literal_type="int"
-            )
-
-        if hasattr(ctx, 'FLOAT_LITERAL') and ctx.FLOAT_LITERAL() is not None:
-            val = ctx.FLOAT_LITERAL().getText()
-            return nodes.LiteralExpression(
-                location=self._loc(ctx),
-                value=float(val),
-                literal_type="float"
-            )
-
-        if hasattr(ctx, 'STRING_LITERAL') and ctx.STRING_LITERAL() is not None:
-            val = ctx.STRING_LITERAL().getText()
-            return nodes.LiteralExpression(
-                location=self._loc(ctx),
-                value=self._strip_quotes(val),
-                literal_type="string"
-            )
-
-        if hasattr(ctx, 'TRUE') and ctx.TRUE() is not None:
-            return nodes.LiteralExpression(
-                location=self._loc(ctx),
-                value=True,
-                literal_type="bool"
-            )
-
-        if hasattr(ctx, 'FALSE') and ctx.FALSE() is not None:
-            return nodes.LiteralExpression(
-                location=self._loc(ctx),
-                value=False,
-                literal_type="bool"
-            )
-
-        if hasattr(ctx, 'IDENTIFIER') and ctx.IDENTIFIER() is not None:
-            name = ctx.IDENTIFIER().getText()
-            return nodes.IdentifierExpression(
-                location=self._loc(ctx),
-                name=name
-            )
-
-        # Handle primary expression
-        if hasattr(ctx, 'primaryExpression') and callable(ctx.primaryExpression):
-            pe_ctx = ctx.primaryExpression()
-            if pe_ctx:
-                return self.visit_primaryExpression(pe_ctx)
-
-        # Handle binary expressions
-        if hasattr(ctx, 'expression') and callable(ctx.expression):
-            exprs = ctx.expression()
-            if len(exprs) == 2:
-                left = self.visit_expression(exprs[0])
-                right = self.visit_expression(exprs[1])
-                op = self._get_operator(ctx)
-                return nodes.BinaryExpression(
-                    location=self._loc(ctx),
-                    operator=op,
-                    left=left,
-                    right=right
-                )
-
-        # Default to identifier
-        return nodes.IdentifierExpression(
-            location=self._loc(ctx),
-            name=text
-        )
+        """Visit root expression (delegates to labeled sub-visitors)."""
+        return self.visit_children(ctx)[0] if ctx and ctx.children else None
 
     visit_Expression = visit_expression
+
+    def visit_PrimaryExpr(self, ctx) -> nodes.Expression:
+        return self.visit_primaryExpression(ctx.primaryExpression())
+
+    def visit_MemberAccessExpr(self, ctx) -> nodes.Expression:
+        obj = self.visit(ctx.expression(0))
+        member = self._get_text(ctx.identifier())
+        return nodes.MemberAccessExpression(
+            location=self._loc(ctx),
+            object=obj,
+            member=member
+        )
+
+    def visit_IndexExpr(self, ctx) -> nodes.Expression:
+        exprs = ctx.expression()
+        return nodes.IndexExpression(
+            location=self._loc(ctx),
+            array=self.visit(exprs[0]),
+            index=self.visit(exprs[1])
+        )
+
+    def visit_CallExpr(self, ctx) -> nodes.Expression:
+        callee = self.visit(ctx.expression(0))
+        args = []
+        if ctx.argumentList():
+            for arg_ctx in ctx.argumentList().argument():
+                args.append(self.visit(arg_ctx.expression()))
+        return nodes.CallExpression(
+            location=self._loc(ctx),
+            callee=callee,
+            arguments=args
+        )
+
+    def visit_InterpolatedExpr(self, ctx) -> nodes.Expression:
+        return nodes.InterpolatedExpression(
+            location=self._loc(ctx),
+            inner=self.visit(ctx.expression(0))
+        )
+
+    def visit_UnaryExpr(self, ctx) -> nodes.Expression:
+        return nodes.UnaryExpression(
+            location=self._loc(ctx),
+            operator="!",
+            operand=self.visit(ctx.expression(0))
+        )
+
+    def visit_MultiplicativeExpr(self, ctx) -> nodes.Expression:
+        exprs = ctx.expression()
+        op = "*"
+        for child in ctx.children:
+            if child.getText() in ('*', '/', '%'):
+                op = child.getText()
+                break
+        return nodes.BinaryExpression(
+            location=self._loc(ctx),
+            operator=op,
+            left=self.visit(exprs[0]),
+            right=self.visit(exprs[1])
+        )
+
+    def visit_AdditiveExpr(self, ctx) -> nodes.Expression:
+        exprs = ctx.expression()
+        op = "+"
+        for child in ctx.children:
+            if child.getText() in ('+', '-'):
+                op = child.getText()
+                break
+        return nodes.BinaryExpression(
+            location=self._loc(ctx),
+            operator=op,
+            left=self.visit(exprs[0]),
+            right=self.visit(exprs[1])
+        )
+
+    def visit_RelationalExpr(self, ctx) -> nodes.Expression:
+        exprs = ctx.expression()
+        op = "<"
+        for child in ctx.children:
+            t = child.getText()
+            if t in ('<', '>', '<=', '>=', '==', '!='):
+                op = t
+                break
+        return nodes.BinaryExpression(
+            location=self._loc(ctx),
+            operator=op,
+            left=self.visit(exprs[0]),
+            right=self.visit(exprs[1])
+        )
+
+    def visit_LogicalAndExpr(self, ctx) -> nodes.Expression:
+        exprs = ctx.expression()
+        return nodes.BinaryExpression(
+            location=self._loc(ctx),
+            operator="&&",
+            left=self.visit(exprs[0]),
+            right=self.visit(exprs[1])
+        )
+
+    def visit_LogicalOrExpr(self, ctx) -> nodes.Expression:
+        exprs = ctx.expression()
+        return nodes.BinaryExpression(
+            location=self._loc(ctx),
+            operator="||",
+            left=self.visit(exprs[0]),
+            right=self.visit(exprs[1])
+        )
 
     def visit_primaryExpression(self, ctx) -> nodes.Expression:
         """Visit primary expression."""
@@ -393,24 +424,20 @@ class ASTBuilder:
             )
 
         # Handle literal
-        if hasattr(ctx, 'literal') and callable(ctx.literal):
-            lit_ctx = ctx.literal()
-            if lit_ctx:
-                return self.visit_literal(lit_ctx)
+        if hasattr(ctx, 'literal') and callable(ctx.literal) and ctx.literal():
+            return self.visit_literal(ctx.literal())
 
         # Handle identifier
-        if hasattr(ctx, 'IDENTIFIER') and ctx.IDENTIFIER() is not None:
-            name = ctx.IDENTIFIER().getText()
+        if hasattr(ctx, 'identifier') and callable(ctx.identifier) and ctx.identifier():
+            name = self._get_text(ctx.identifier())
             return nodes.IdentifierExpression(
                 location=self._loc(ctx),
                 name=name
             )
 
         # Handle parenthesized expression
-        if hasattr(ctx, 'expression') and callable(ctx.expression):
-            expr_ctx = ctx.expression()
-            if expr_ctx:
-                return self.visit_expression(expr_ctx)
+        if hasattr(ctx, 'expression') and callable(ctx.expression) and ctx.expression():
+            return self.visit(ctx.expression())
 
         text = self._get_text(ctx)
         return nodes.IdentifierExpression(
@@ -1545,13 +1572,3 @@ class ASTBuilder:
         if len(text) >= 2 and text[0] == text[-1] and text[0] in ('"', "'"):
             return text[1:-1]
         return text
-
-    def _get_operator(self, ctx) -> str:
-        """Extract operator from expression context."""
-        text = self._get_text(ctx)
-        # Common operators
-        operators = ['==', '!=', '<=', '>=', '&&', '||', '<', '>', '+', '-', '*', '/', '%', '=']
-        for op in operators:
-            if op in text:
-                return op
-        return ""
