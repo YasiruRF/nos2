@@ -27,8 +27,14 @@ from ..codegen import PythonGenerator, LaunchTranspiler, GenerationOutput
 
 
 class NOSSyntaxError(Exception):
-    """Syntax error in NOS source."""
-    pass
+    """Syntax error in NOS source.
+
+    Attributes:
+        errors: List of syntax error messages
+    """
+    def __init__(self, errors: List[str]):
+        self.errors = errors
+        super().__init__("\n".join(errors))
 
 
 class NOSErrorListener(ErrorListener):
@@ -252,10 +258,7 @@ class CompilerPipeline:
 
             # Check for syntax errors
             if error_listener.errors:
-                if self.verbose:
-                    for error in error_listener.errors:
-                        print(f"  {error}")
-                return None
+                raise NOSSyntaxError(error_listener.errors)
 
             # Convert parse tree to AST using ASTBuilder
             builder = ASTBuilder(file_name)
@@ -263,6 +266,8 @@ class CompilerPipeline:
 
             return ast
 
+        except NOSSyntaxError:
+            raise
         except Exception as e:
             if self.verbose:
                 print(f"Parse error in {file_name}: {e}")

@@ -157,15 +157,21 @@ class SymbolTable:
         self.all_scopes: List[Scope] = [self.global_scope]
 
     def push_scope(self, name: str, scope_type: str = "block") -> Scope:
-        """Create and enter a new scope.
+        """Create and enter a new scope, or enter an existing one.
 
         Args:
             name: The scope name
             scope_type: The scope type (package, node, callback, block)
 
         Returns:
-            The new scope
+            The scope
         """
+        # Check if scope already exists in children
+        for child in self.current_scope.children:
+            if child.name == name and child.scope_type == scope_type:
+                self.current_scope = child
+                return child
+
         new_scope = Scope(name, self.current_scope, scope_type)
         self.current_scope = new_scope
         self.all_scopes.append(new_scope)

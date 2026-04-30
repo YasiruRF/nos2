@@ -9,11 +9,11 @@
 - **Environment Modernization**: Dev environment updated to Java 21 and Go 1.26.2.
 - **Basic Python Codegen**: Initial framework for generating ROS2 Python nodes.
 - **CLI Entry Point**: Functional `nos` compiler interface.
+- **Semantic Analysis Hardening**: (Issue #5) Implemented struct member access validation and alias resolution for imports.
+- **Diagnostic Improvements**: (Issue #4) Integrated ANTLR4 syntax errors into the compilation pipeline.
 
 ### In Progress 🚧
 - **Harden Qualified Type Parsing**: (Issue #2) Adding validation for `pkg::Type` structures.
-- **Diagnostic Improvements**: (Issue #4) Better logging for parse fallbacks.
-- **Semantic Analysis**: (Issue #5) Strengthening symbol table and type checking.
 
 ### Pending / To-Do ⏳
 - **Comprehensive Testing**: 

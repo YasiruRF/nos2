@@ -185,8 +185,14 @@ class SymbolTableBuilder(ASTVisitor):
         if node.package:
             self.visit(node.package)
 
+        for imp in node.imports:
+            self.visit(imp)
+
         for decl in node.declarations:
             self.visit(decl)
+
+        if node.package:
+            self.symbol_table.pop_scope()
 
     def visit_PackageDecl(self, node: nodes.PackageDecl) -> None:
         """Visit package declaration."""
@@ -200,6 +206,25 @@ class SymbolTableBuilder(ASTVisitor):
             is_exported=True
         )
         self.symbol_table.define(symbol)
+
+    def visit_ImportDecl(self, node: nodes.ImportDecl) -> None:
+        """Visit import declaration."""
+        # Use alias if provided, otherwise the last part of the qualified name
+        name = node.alias if node.alias else node.qualified_name.split("::")[-1]
+
+        symbol = Symbol(
+            name=name,
+            symbol_type=SymbolType.PACKAGE,
+            node=node,
+            scope=self.symbol_table.current_scope,
+            is_exported=False
+        )
+        if not self.symbol_table.define(symbol):
+            self.analyzer._add_warning(
+                f"Duplicate import or symbol: '{name}'",
+                node.location,
+                "W009"
+            )
 
     def visit_NodeDecl(self, node: nodes.NodeDecl) -> None:
         """Visit node declaration."""
@@ -442,7 +467,39 @@ class ReferenceResolver(ASTVisitor):
         self.symbol_table = symbol_table
         self.analyzer = analyzer
 
-    def visit_IdentifierExpression(self, node: nodes.IdentifierExpression) -> None:
+    def visit_File(self, node: nodes.File) -> None:
+        """Visit file and process declarations."""
+        if node.package:
+            self.symbol_table.push_scope(node.package.name, "package")
+
+        for decl in node.declarations:
+            self.visit(decl)
+
+        if node.package:
+            self.symbol_table.pop_scope()
+
+    def visit_NodeDecl(self, node: nodes.NodeDecl) -> None:
+        """Visit node declaration and manage scope."""
+        self.symbol_table.push_scope(node.name, "node")
+        
+        # Visit children (parameters, subscriptions, etc.)
+        self.visit_children(node)
+        
+        self.symbol_table.pop_scope()
+
+    def visit_CallbackDecl(self, node: nodes.CallbackDecl) -> None:
+        """Visit callback declaration and manage scope."""
+        self.symbol_table.push_scope(node.event, "callback")
+        self.visit_children(node)
+        self.symbol_table.pop_scope()
+
+    def visit_LaunchDecl(self, node: nodes.LaunchDecl) -> None:
+        """Visit launch declaration and manage scope."""
+        self.symbol_table.push_scope(node.name, "launch")
+        self.visit_children(node)
+        self.symbol_table.pop_scope()
+
+    def visit_IdentifierExpression(self, node: nodes.IdentifierExpression) -> Optional[nodes.Type]:
         """Visit identifier and check if it exists."""
         symbol = self.symbol_table.lookup(node.name)
         if symbol is None:
@@ -451,25 +508,59 @@ class ReferenceResolver(ASTVisitor):
                 node.location,
                 "E005"
             )
+            return None
+        return symbol.type_info
 
-    def visit_MemberAccessExpression(self, node: nodes.MemberAccessExpression) -> None:
+    def visit_MemberAccessExpression(self, node: nodes.MemberAccessExpression) -> Optional[nodes.Type]:
         """Visit member access expression."""
-        # First visit the object
-        self.visit(node.object)
+        # First visit the object and get its type
+        obj_type = self.visit(node.object)
 
-        # TODO: Validate member exists on object type
-        # This requires type information from the object
+        if obj_type is None:
+            return None
 
-    def visit_CallExpression(self, node: nodes.CallExpression) -> None:
+        # Validate member exists on object type
+        if isinstance(obj_type, nodes.StructType):
+            for field in obj_type.fields:
+                if field.name == node.member:
+                    return field.type
+            
+            self.analyzer._add_error(
+                f"Member '{node.member}' not found on struct type",
+                node.location,
+                "E006"
+            )
+        elif isinstance(obj_type, nodes.QualifiedType):
+            # For now, we assume qualified types (ROS2 msgs) have the member
+            # In a full implementation, we would look up the message definition
+            return None
+        
+        return None
+
+    def visit_LiteralExpression(self, node: nodes.LiteralExpression) -> nodes.Type:
+        """Visit literal expression and return its type."""
+        kind_map = {
+            'int': nodes.PrimitiveTypeKind.INT,
+            'float': nodes.PrimitiveTypeKind.FLOAT,
+            'string': nodes.PrimitiveTypeKind.STRING,
+            'bool': nodes.PrimitiveTypeKind.BOOL,
+            'duration': nodes.PrimitiveTypeKind.DURATION,
+        }
+        kind = kind_map.get(node.literal_type, nodes.PrimitiveTypeKind.STRING)
+        return nodes.PrimitiveType(location=node.location, kind=kind)
+
+    def visit_CallExpression(self, node: nodes.CallExpression) -> Optional[nodes.Type]:
         """Visit function call expression."""
         # Visit the callee
-        self.visit(node.callee)
+        callee_type = self.visit(node.callee)
 
         # Visit arguments
         for arg in node.arguments:
             self.visit(arg)
+        
+        return None  # Function return types not fully implemented yet
 
-    def visit_QualifiedType(self, node: nodes.QualifiedType) -> None:
+    def visit_QualifiedType(self, node: nodes.QualifiedType) -> nodes.Type:
         """Visit qualified type reference."""
         # Check if the package exists (imported or builtin)
         # For now, we accept common ROS2 message packages
@@ -488,6 +579,17 @@ class ReferenceResolver(ASTVisitor):
                     node.location,
                     "W010"
                 )
+            else:
+                # Check if the type exists in that package scope
+                symbol = import_scope.lookup_local(node.name)
+                if symbol is None:
+                     self.analyzer._add_warning(
+                        f"Type '{node.name}' not found in package '{node.package}'",
+                        node.location,
+                        "W011"
+                    )
+
+        return node
 
     def _find_import(self, package_name: str) -> Optional[Scope]:
         """Find an imported package scope."""
