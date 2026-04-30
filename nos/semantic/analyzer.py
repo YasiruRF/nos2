@@ -560,34 +560,72 @@ class ReferenceResolver(ASTVisitor):
         
         return None  # Function return types not fully implemented yet
 
+    def visit_QualifiedIdentifierExpression(self, node: nodes.QualifiedIdentifierExpression) -> Optional[nodes.Type]:
+        """Visit qualified identifier: pkg::member"""
+        if not node.parts:
+            return None
+        
+        # Check if first part is a package/import
+        package_name = node.parts[0]
+        import_scope = self._find_import(package_name)
+        
+        if import_scope:
+            # Look up subsequent parts in the scope
+            current_scope = import_scope
+            for part in node.parts[1:]:
+                symbol = current_scope.lookup_local(part)
+                if symbol is None:
+                    self.analyzer._add_error(
+                        f"Member '{part}' not found in '{current_scope.name}'",
+                        node.location,
+                        "E007"
+                    )
+                    return None
+                if symbol.symbol_type == SymbolType.PACKAGE:
+                    current_scope = symbol.scope
+                else:
+                    return symbol.type_info
+        
+        # If not an import, it might be a ROS2 message reference used as a value (unlikely in NOS but possible)
+        return None
+
     def visit_QualifiedType(self, node: nodes.QualifiedType) -> nodes.Type:
         """Visit qualified type reference."""
         # Check if the package exists (imported or builtin)
-        # For now, we accept common ROS2 message packages
+        # Standard ROS2 message packages
         builtin_packages = {
             'std_msgs', 'geometry_msgs', 'sensor_msgs', 'nav_msgs',
             'diagnostic_msgs', 'action_msgs', 'builtin_interfaces',
-            'rcl_interfaces'
+            'rcl_interfaces', 'tf2_msgs', 'trajectory_msgs', 'visualization_msgs',
+            'stereo_msgs', 'shape_msgs', 'std_srvs'
         }
 
-        if node.package and node.package not in builtin_packages:
-            # Check if package was imported
-            import_scope = self._find_import(node.package)
-            if import_scope is None:
-                self.analyzer._add_warning(
-                    f"Unknown package: '{node.package}'",
-                    node.location,
-                    "W010"
-                )
-            else:
-                # Check if the type exists in that package scope
-                symbol = import_scope.lookup_local(node.name)
-                if symbol is None:
-                     self.analyzer._add_warning(
-                        f"Type '{node.name}' not found in package '{node.package}'",
+        if node.package:
+            if node.package not in builtin_packages:
+                # Check if package was imported
+                import_scope = self._find_import(node.package)
+                if import_scope is None:
+                    self.analyzer._add_error(
+                        f"Unknown package or import: '{node.package}'",
                         node.location,
-                        "W011"
+                        "E008"
                     )
+                else:
+                    # Check if the type exists in that package scope
+                    symbol = import_scope.lookup_local(node.name)
+                    if symbol is None:
+                        self.analyzer._add_error(
+                            f"Type '{node.name}' not found in package '{node.package}'",
+                            node.location,
+                            "E009"
+                        )
+        else:
+            # Unqualified type - check if it's a builtin primitive handled elsewhere
+            # or if it exists in the current scope chain
+            symbol = self.symbol_table.lookup(node.name)
+            if symbol is None:
+                # Could be a builtin primitive like 'string', 'int' etc.
+                pass
 
         return node
 
