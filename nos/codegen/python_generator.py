@@ -120,6 +120,9 @@ class PythonGenerator(CodeGenerator):
         # Generate __init__ method
         init_method = self._generate_init_method(node, node_name)
 
+        # Generate parameter properties
+        param_properties = self._generate_parameter_properties(node)
+
         # Generate parameter declaration method
         param_method = self._generate_declare_parameters_method(node)
 
@@ -137,6 +140,8 @@ class PythonGenerator(CodeGenerator):
 
 {init_method}
 
+{param_properties}
+
 {param_method}
 
 {comm_method}
@@ -145,6 +150,33 @@ class PythonGenerator(CodeGenerator):
 
 {lifecycle_methods}
 '''
+
+    def _generate_parameter_properties(self, node: nodes.NodeDecl) -> str:
+        """Generate property accessors for parameters."""
+        lines = []
+        for param in node.parameters:
+            if isinstance(param.type, nodes.StructType):
+                # Generate flattened properties for struct fields
+                for field in param.type.fields:
+                    full_name = f"{param.name}.{field.name}"
+                    prop_name = f"{param.name}_{field.name}"
+                    lines.append(f"    @property")
+                    lines.append(f"    def {prop_name}(self):")
+                    lines.append(f"        return self.get_parameter('{full_name}').value")
+                    lines.append("")
+                
+                # Also a top-level property for the whole struct
+                lines.append(f"    @property")
+                lines.append(f"    def {param.name}(self):")
+                lines.append(f"        return self.get_parameter('{param.name}').value")
+                lines.append("")
+            else:
+                lines.append(f"    @property")
+                lines.append(f"    def {param.name}(self):")
+                lines.append(f"        return self.get_parameter('{param.name}').value")
+                lines.append("")
+        
+        return "\n".join(lines)
 
     def _generate_init_method(self, node: nodes.NodeDecl, node_name: str) -> str:
         """Generate __init__ method."""
@@ -173,17 +205,28 @@ class PythonGenerator(CodeGenerator):
             return "\n".join(lines)
 
         for param in node.parameters:
-            param_name = param.name
-            default_value = self._expression_to_python(param.default_value) if param.default_value else "None"
+            if isinstance(param.type, nodes.StructType):
+                # Flatten struct parameters for ROS2
+                for field in param.type.fields:
+                    param_name = f"{param.name}.{field.name}"
+                    default_value = "None"
+                    
+                    if param.default_value and isinstance(param.default_value, nodes.StructInitializerExpression):
+                        if field.name in param.default_value.fields:
+                            default_value = self._expression_to_python(param.default_value.fields[field.name])
+                    
+                    lines.append(f"        self.declare_parameter('{param_name}', {default_value})")
+            else:
+                param_name = param.name
+                default_value = self._expression_to_python(param.default_value) if param.default_value else "None"
 
-            # Generate descriptor if constraints exist
-            descriptor = ""
-            if param.constraints:
-                constraint_code = self._generate_parameter_constraints(param)
-                if constraint_code:
-                    descriptor = f", descriptor={constraint_code}"
+                descriptor = ""
+                if param.constraints:
+                    constraint_code = self._generate_parameter_constraints(param)
+                    if constraint_code:
+                        descriptor = f", descriptor={constraint_code}"
 
-            lines.append(f"        self.declare_parameter('{param_name}', {default_value}{descriptor})")
+                lines.append(f"        self.declare_parameter('{param_name}', {default_value}{descriptor})")
 
         return "\n".join(lines)
 
@@ -315,12 +358,23 @@ class PythonGenerator(CodeGenerator):
             callbacks.append(callback)
 
         # Generate lifecycle callbacks with security validation
+        import textwrap
         for cb in node.callbacks:
             # Validate embedded Python code for security
             body = cb.body
             wrapped_body = None
             if body:
-                validation_result = validate_callback_code(body, strict=True)
+                # Clean up body for validation and generation
+                # We strip leading/trailing newlines but KEEP leading spaces on the first line
+                # so that textwrap.dedent can work correctly.
+                cleaned_body = body.strip('\r\n')
+                cleaned_body = textwrap.dedent(cleaned_body)
+                
+                # Interpolate NOS parameters BEFORE validation
+                # so that the code is valid Python syntax.
+                cleaned_body = self._interpolate_nos_parameters(cleaned_body)
+                
+                validation_result = validate_callback_code(cleaned_body, strict=True)
                 if not validation_result.is_safe:
                     security_errors.extend(validation_result.errors)
                     logger.warning(
@@ -332,20 +386,25 @@ class PythonGenerator(CodeGenerator):
                     body += "        # " + "\n        # ".join(validation_result.errors)
                     body += "\n        self.get_logger().error('Security validation failed for callback')"
                     body += "\n        pass"
-                elif validation_result.warnings:
-                    # Prepend warnings as comments
-                    body = f"        # SECURITY WARNINGS:\n"
-                    body += "        # " + "\n        # ".join(validation_result.warnings) + "\n" + body
-                    # Log audit event
-                    logger.info(
-                        f"Callback '{cb.event}' passed security validation with warnings: "
-                        f"{validation_result.warnings}"
-                    )
                 else:
-                    # Log successful validation
-                    logger.info(f"Callback '{cb.event}' passed security validation")
+                    # Use cleaned and interpolated body
+                    body = cleaned_body
+                    
+                    if validation_result.warnings:
+                        # Prepend warnings as comments
+                        body = f"# SECURITY WARNINGS:\n"
+                        body += "# " + "\n# ".join(validation_result.warnings) + "\n" + body
+                        # Log audit event
+                        logger.info(
+                            f"Callback '{cb.event}' passed security validation with warnings: "
+                            f"{validation_result.warnings}"
+                        )
+                    else:
+                        # Log successful validation
+                        logger.info(f"Callback '{cb.event}' passed security validation")
 
                 # Wrap validated code in try/except for runtime safety
+                # Note: body already has interpolation applied here
                 wrapped_body = self._wrap_code_in_try_except(body, cb.event)
 
             if cb.event == "on_init":
@@ -367,13 +426,17 @@ class PythonGenerator(CodeGenerator):
 {callback_body}
 '''
             else:
-                params = ", ".join(f"{p.name}: {self._get_python_type(p.type)}"
-                                  for p in cb.parameters)
+                method_params = ["self"]
+                for p in cb.parameters:
+                    method_params.append(f"{p.name}: {self._get_python_type(p.type)}")
+                
+                params_str = ", ".join(method_params)
+                
                 if wrapped_body:
                     callback_body = wrapped_body
                 else:
                     callback_body = "        pass"
-                callback = f'''    def {cb.event}({params}):
+                callback = f'''    def {cb.event}({params_str}):
         """User callback: {cb.event}."""
 {callback_body}
 '''
@@ -393,7 +456,7 @@ class PythonGenerator(CodeGenerator):
         """Wrap callback body in try/except for runtime safety.
 
         Args:
-            body: The callback body code
+            body: The callback body code (should be pre-interpolated)
             callback_name: Name of the callback for error messages
 
         Returns:
@@ -413,6 +476,19 @@ class PythonGenerator(CodeGenerator):
             raise  # Re-raise to allow upstream handling'''
 
         return wrapped
+
+    def _interpolate_nos_parameters(self, body: str) -> str:
+        """Replace NOS parameter interpolation ${...} with self.property_name."""
+        import re
+        # Match ${param.field} or ${param}
+        pattern = r'\$\{([a-zA-Z0-9_\.]+)\}'
+        
+        def replace_param(match):
+            param_path = match.group(1)
+            # Convert param.field to param_field for property access
+            return f"self.{param_path.replace('.', '_')}"
+            
+        return re.sub(pattern, replace_param, body)
 
     def _generate_lifecycle_methods(self, node: nodes.NodeDecl) -> str:
         """Generate lifecycle management methods."""

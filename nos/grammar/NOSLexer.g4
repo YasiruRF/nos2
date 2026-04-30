@@ -124,9 +124,6 @@ WS          : [ \t\r\n]+ -> skip;
 // Mode for capturing Python code blocks
 mode PYTHON_MODE;
 
-PYTHON_CODE : (PYTHON_LINE | PYTHON_NL)+ -> popMode;
-
-PYTHON_LINE: ~[\r\n{}]+;
-PYTHON_NL  : '\r'? '\n';
-PYTHON_LBRACE: '{' -> pushMode(PYTHON_MODE);
-PYTHON_RBRACE: '}' -> popMode;
+PYTHON_LBRACE: '{' -> type(LBRACE), pushMode(PYTHON_MODE);
+PYTHON_RBRACE: '}' -> type(RBRACE), popMode;
+PYTHON_CODE:   ~[{}] +;

@@ -12,12 +12,13 @@
 - **Semantic Analysis Hardening**: (Issue #5) Implemented struct member access validation and alias resolution for imports.
 - **Diagnostic Improvements**: (Issue #4) Integrated ANTLR4 syntax errors into the compilation pipeline.
 - **Qualified Type Validation**: (Issue #2) Hardened validation for `pkg::Type` structures across imports.
+- **Callback Syntax & Events**: (Issue #6) Fully implemented and verified callback syntaxes and custom events.
 
 ### In Progress 🚧
 - **Comprehensive Testing**: 
-    - [ ] Unit test coverage for all expression types.
-    - [ ] Integration tests for callback syntax and custom events (Issue #6).
-    - [ ] End-to-end validation of generated ROS2 nodes.
+    - [x] Unit test coverage for all expression types.
+    - [x] Integration tests for callback syntax and custom events (Issue #6).
+    - [x] End-to-end validation of generated ROS2 nodes.
     - [ ] Stress testing with complex/nested launch configurations.
 - **C++ Code Generation**: (Phase 2)
 - **LSP / IDE Support**: Syntax highlighting and autocompletion.

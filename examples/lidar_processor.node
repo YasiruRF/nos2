@@ -78,19 +78,19 @@ node LidarProcessor {
         self.update_diagnostics("scan_processed", True)
     }
 
-    on_imu_received(msg: sensor_msgs::Imu)  -> {
+    on imu_received(msg: sensor_msgs::Imu)  -> {
         # Store IMU data for sensor fusion
         self.latest_imu = msg
     }
 
-    on_set_parameters_request(request, response)  -> {
-        response.success = True
-        response.message = "Parameters updated"
-        return response
+    on set_parameters_request(req: std_srvs::SetBool::Request, res: std_srvs::SetBool::Response)  -> {
+        res.success = True
+        res.message = "Parameters updated"
+        return res
     }
 
-    on_parameter_change(${filter_config.enabled})  -> {
-        if new_value:
+    on_parameter_change(enabled: bool)  -> {
+        if enabled:
             self.get_logger().info("Filter enabled")
             self.filter.enable()
         else:

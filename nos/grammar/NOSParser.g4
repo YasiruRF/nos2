@@ -92,7 +92,7 @@ callbackDecl:
     | ON identifier LPAREN parameterList? RPAREN PYTHON_START pythonCode RBRACE
 ;
 
-pythonCode: PYTHON_CODE?;
+pythonCode: (PYTHON_CODE | LBRACE pythonCode RBRACE)*;
 
 // Launch declaration
 launchDecl: LAUNCH identifier LBRACE launchBody RBRACE;

@@ -312,7 +312,7 @@ class ASTBuilder:
         return self.visit_primaryExpression(ctx.primaryExpression())
 
     def visit_MemberAccessExpr(self, ctx) -> nodes.Expression:
-        obj = self.visit(ctx.expression(0))
+        obj = self.visit(ctx.expression())
         member = self._get_text(ctx.identifier())
         return nodes.MemberAccessExpression(
             location=self._loc(ctx),
@@ -329,7 +329,7 @@ class ASTBuilder:
         )
 
     def visit_CallExpr(self, ctx) -> nodes.Expression:
-        callee = self.visit(ctx.expression(0))
+        callee = self.visit(ctx.expression())
         args = []
         if ctx.argumentList():
             for arg_ctx in ctx.argumentList().argument():
@@ -343,14 +343,14 @@ class ASTBuilder:
     def visit_InterpolatedExpr(self, ctx) -> nodes.Expression:
         return nodes.InterpolatedExpression(
             location=self._loc(ctx),
-            inner=self.visit(ctx.expression(0))
+            inner=self.visit(ctx.expression())
         )
 
     def visit_UnaryExpr(self, ctx) -> nodes.Expression:
         return nodes.UnaryExpression(
             location=self._loc(ctx),
             operator="!",
-            operand=self.visit(ctx.expression(0))
+            operand=self.visit(ctx.expression())
         )
 
     def visit_MultiplicativeExpr(self, ctx) -> nodes.Expression:
@@ -523,18 +523,27 @@ class ASTBuilder:
         args = []
         if hasattr(ctx, 'expressionList') and callable(ctx.expressionList):
             el_ctx = ctx.expressionList()
-            if el_ctx and hasattr(el_ctx, 'expression'):
-                for expr_ctx in el_ctx.expression():
+            if el_ctx and hasattr(el_ctx, 'expression') and callable(el_ctx.expression):
+                exprs = el_ctx.expression()
+                if exprs:
+                    # ANTLR4 returns a list for * or +, but check just in case
+                    if not isinstance(exprs, list):
+                        exprs = [exprs]
+                    for expr_ctx in exprs:
+                        if expr_ctx:
+                            arg = self.visit_expression(expr_ctx)
+                            if arg:
+                                args.append(arg)
+        elif hasattr(ctx, 'expression') and callable(ctx.expression):
+            exprs = ctx.expression()
+            if exprs:
+                if not isinstance(exprs, list):
+                    exprs = [exprs]
+                for expr_ctx in exprs:
                     if expr_ctx:
                         arg = self.visit_expression(expr_ctx)
                         if arg:
                             args.append(arg)
-        elif hasattr(ctx, 'expression') and callable(ctx.expression):
-            for expr_ctx in ctx.expression():
-                if expr_ctx:
-                    arg = self.visit_expression(expr_ctx)
-                    if arg:
-                        args.append(arg)
 
         return nodes.Constraint(
             location=self._loc(ctx),
