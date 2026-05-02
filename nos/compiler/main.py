@@ -5,6 +5,8 @@ Provides command-line interface for compiling NOS files.
 
 import argparse
 import sys
+import subprocess
+import os
 from pathlib import Path
 
 from .pipeline import CompilerPipeline, CompilationResult
@@ -58,6 +60,12 @@ def create_parser() -> argparse.ArgumentParser:
         '--no-build-cache',
         action='store_true',
         help='Disable build cache (forces colcon build every time)'
+    )
+
+    parser.add_argument(
+        '--run',
+        action='store_true',
+        help='Automatically run the generated node after compilation'
     )
 
     parser.add_argument(
@@ -134,6 +142,7 @@ def main(args: list = None) -> int:
     # Compile files
     success_count = 0
     failure_count = 0
+    last_generated_file = None
 
     for file_path in parsed.files:
         result = pipeline.compile_file(file_path)
@@ -146,13 +155,42 @@ def main(args: list = None) -> int:
             success_count += 1
             if not parsed.dry_run:
                 wrote = pipeline.write_outputs(result, parsed.output)
-                if not wrote:
+                if wrote:
+                    # Find a runnable file for --run (prefer non-launch files)
+                    for f in result.files:
+                        if f.endswith('.py') and not f.endswith('_launch.py'):
+                            package_name = pipeline._extract_package_name(result.ast)
+                            last_generated_file = Path(parsed.output) / "ros2_ws" / "src" / package_name / package_name / f
+                            break
+                else:
                     print(format_result(result, file_path))
                     print()
                     success_count -= 1
                     failure_count += 1
         else:
             failure_count += 1
+
+    # Run if requested and successful
+    if parsed.run and success_count > 0 and last_generated_file:
+        if parsed.verbose:
+            print(f"Running: {last_generated_file}")
+        
+        # Add project root to PYTHONPATH so nos runtime can be found
+        env = os.environ.copy()
+        project_root = str(Path(__file__).parent.parent.parent)
+        if 'PYTHONPATH' in env:
+            env['PYTHONPATH'] = f"{project_root}{os.pathsep}{env['PYTHONPATH']}"
+        else:
+            env['PYTHONPATH'] = project_root
+            
+        try:
+            # We use the current python interpreter to run the generated node
+            subprocess.run([sys.executable, str(last_generated_file)], env=env, check=True)
+        except KeyboardInterrupt:
+            pass
+        except subprocess.CalledProcessError as e:
+            print(f"Error running node: {e}", file=sys.stderr)
+            return 1
 
     # Summary
     if parsed.verbose:

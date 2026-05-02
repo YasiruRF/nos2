@@ -597,7 +597,7 @@ class ReferenceResolver(ASTVisitor):
             'std_msgs', 'geometry_msgs', 'sensor_msgs', 'nav_msgs',
             'diagnostic_msgs', 'action_msgs', 'builtin_interfaces',
             'rcl_interfaces', 'tf2_msgs', 'trajectory_msgs', 'visualization_msgs',
-            'stereo_msgs', 'shape_msgs', 'std_srvs'
+            'stereo_msgs', 'shape_msgs', 'std_srvs', 'turtlesim', 'turtlesim_msgs'
         }
 
         if node.package:

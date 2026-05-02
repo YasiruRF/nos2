@@ -97,17 +97,15 @@ class PythonGenerator(CodeGenerator):
         message_packages = set()
         for sub in node.subscriptions:
             if sub.message_type.package:
-                message_packages.add(f"{sub.message_type.package}.msg")
+                message_packages.add(sub.message_type.package)
         for pub in node.publications:
             if pub.message_type.package:
-                message_packages.add(f"{pub.message_type.package}.msg")
+                message_packages.add(pub.message_type.package)
 
         for pkg in sorted(message_packages):
-            imports.append(f"from {pkg} import *")
+            imports.append(f"from {pkg}.msg import *")
 
-        return "\n".join(f"import {imp}" if " " not in imp else f"from {imp.split()[1]} import {imp.split()[3]}"
-                         if " import " in imp else imp
-                         for imp in imports)
+        return "\n".join(imports)
 
     def _generate_node_class(self, node: nodes.NodeDecl, class_name: str,
                              base_class: str) -> str:
@@ -322,40 +320,60 @@ class PythonGenerator(CodeGenerator):
         callbacks = []
         security_errors = []
 
+        # Get list of events that have user implementations
+        user_implemented_events = {cb.event for cb in node.callbacks}
+
         # Generate subscription callbacks
         for sub in node.subscriptions:
             msg_type = sub.message_type.name
-            callback = f'''    def _on_{sub.name}_received(self, msg: {msg_type}):
+            callback_name = f"{sub.name}_received"
+            
+            # Wrapper
+            wrapper = f'''    def _on_{sub.name}_received(self, msg: {msg_type}):
         """Wrapper for {sub.name} subscription callback."""
         try:
-            self.on_{sub.name}_received(msg)
+            self.{callback_name}(msg)
         except Exception as e:
             self.get_logger().error(f"Error in {sub.name} callback: {{e}}")
-
-    def on_{sub.name}_received(self, msg: {msg_type}):
-        """Override in subclass to handle {sub.name} messages."""
+'''
+            callbacks.append(wrapper)
+            
+            # Default implementation if not provided by user
+            if callback_name not in user_implemented_events:
+                default_impl = f'''
+    def {callback_name}(self, msg: {msg_type}):
+        """Default implementation for {sub.name} messages."""
         pass
 '''
-            callbacks.append(callback)
+                callbacks.append(default_impl)
 
         # Generate service callbacks
         for svc in node.services:
             svc_type = svc.service_type.name
-            callback = f'''    def _{svc.name}_callback(self, request, response):
+            callback_name = f"{svc.name}_callback"
+            user_callback_name = f"{svc.name}_request"
+            
+            # Wrapper
+            wrapper = f'''    def _{callback_name}(self, request, response):
         """Wrapper for {svc.name} service callback."""
         try:
-            return self.on_{svc.name}_request(request, response)
+            return self.{user_callback_name}(request, response)
         except Exception as e:
             self.get_logger().error(f"Error in {svc.name} service: {{e}}")
             response.success = False
             return response
-
-    def on_{svc.name}_request(self, request, response):
-        """Override in subclass to handle {svc.name} requests."""
+'''
+            callbacks.append(wrapper)
+            
+            # Default implementation if not provided by user
+            if user_callback_name not in user_implemented_events:
+                default_impl = f'''
+    def {user_callback_name}(self, request, response):
+        """Default implementation for {svc.name} requests."""
         response.success = True
         return response
 '''
-            callbacks.append(callback)
+                callbacks.append(default_impl)
 
         # Generate lifecycle callbacks with security validation
         import textwrap
@@ -466,7 +484,8 @@ class PythonGenerator(CodeGenerator):
             return "        pass"
 
         # Indent the body content
-        indented_body = self._indent(body.strip(), 2)
+        # Level 3 (12 spaces) to be nested inside 'try:' which is at level 2 (8 spaces)
+        indented_body = self._indent(body.strip(), 3)
 
         # Generate the wrapped code
         wrapped = f'''        try:
