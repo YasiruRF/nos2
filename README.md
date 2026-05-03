@@ -39,71 +39,77 @@ For detailed status on implementation, testing, and roadmap, see [progress.md](p
 
 ### From Source
 
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-org/nos.git
+   cd nos
+   ```
+
+2. Install in development mode:
+   ```bash
+   pip install -e .
+   ```
+
+### Adding to PATH
+
+To use the `nos` command from anywhere, ensure your Python script directory is in your system's PATH.
+
+**Windows:**
+1. Search for "Edit the system environment variables".
+2. Click "Environment Variables".
+3. Under "User variables", find `Path` and click "Edit".
+4. Add the path to your Python Scripts folder (e.g., `%APPDATA%\Python\Python3x\Scripts`).
+
+**Linux/macOS:**
+Add this to your `.bashrc` or `.zshrc`:
 ```bash
-git clone https://github.com/your-org/nos.git
-cd nos
-pip install -e .
+export PATH="$PATH:/home/user/.local/bin"
 ```
 
-### Development Installation
+## Quick Start: Turtlesim Circle
 
-```bash
-pip install -e ".[dev]"
-```
+NOS allows you to define, compile, and run ROS2 nodes directly.
 
-This installs additional development dependencies: pytest, black, mypy, flake8.
-
-## Quick Start
-
-### 1. Define a Node
-
-Create `lidar_processor.node`:
+### 1. Create `circle.node`
 
 ```nos
-package robot_navigation
+package turtlesim_example
+version "0.1.0"
+depends: ["rclpy", "geometry_msgs"]
 
-node LidarProcessor {
-    parameters {
-        frame_id: string = "laser_frame"
-        scan_topic: string = "/scan"
-        publish_rate: float = 10.0 @range(1.0, 100.0)
-    }
-    
-    subscriptions {
-        scan: sensor_msgs::LaserScan @topic(${scan_topic}) @qos(reliable, depth=10)
-    }
-    
+node CircleGenerator {
     publications {
-        processed_scan: sensor_msgs::LaserScan @topic("/scan/processed")
+        cmd_vel: geometry_msgs::Twist @topic("/turtle1/cmd_vel")
     }
-    
-    lifecycle: managed
-    
-    on_scan_received(msg: sensor_msgs::LaserScan) {
-        # Processing logic here
-        self.processed_scan.publish(msg)
+
+    on_init -> {
+        self.get_logger().info("Starting circular motion...")
+        # Create a timer to publish at 10Hz
+        self.create_timer(0.1, self.timer_callback)
+    }
+
+    on timer_callback() -> {
+        msg = Twist()
+        msg.linear.x = 2.0
+        msg.angular.z = 1.0
+        self.cmd_vel.publish(msg)
     }
 }
 ```
 
-### 2. Compile
+### 2. Run Directly
+
+You can skip the manual build process and run the node immediately from the source file:
 
 ```bash
-nos lidar_processor.node -o generated/
+# Start Turtlesim first in another terminal:
+# ros2 run turtlesim turtlesim_node
+
+# Compile and run the NOS node instantly
+nos circle.node --run
 ```
 
-### 3. Use the Generated Code
-
-The compiler generates a Python ROS2 node that you can extend:
-
-```python
-from generated.lidar_processor_node import LidarProcessorBase
-
-class LidarProcessor(LidarProcessorBase):
-    def on_scan_received(self, msg):
-        # Custom processing logic
-        super().on_scan_received(msg)
-```
+The `--run` flag automatically handles code generation, temporary workspace setup, and execution.
 
 ## Project Structure
 
