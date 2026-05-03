@@ -1,3 +1,5 @@
+"""Integration tests for callback syntax and event handling."""
+
 import pytest
 from nos.compiler.pipeline import CompilerPipeline
 

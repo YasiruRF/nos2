@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Phase 1: Core Language Implementation
 
-This release establishes the foundational compiler infrastructure for NOS, a declarative DSL for ROS2 robotics development.
+This release establishes the foundational compiler infrastructure for NOS (Node Orchestration System), a declarative DSL for ROS2 robotics development.
 
 ### Added
 

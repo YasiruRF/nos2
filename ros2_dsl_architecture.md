@@ -1,8 +1,8 @@
-﻿# ROS2 DSL Architecture: NOS
+﻿# ROS2 DSL Architecture: Node Orchestration System (NOS)
 
 ## Executive Summary
 
-NOS is a declarative domain-specific language designed to address ROS2's verbosity and complexity challenges. It provides a unified syntax for defining robotics systems, generating optimized Python/C++ code while maintaining full compatibility with existing ROS2 tooling.
+NOS (Node Orchestration System) is a declarative domain-specific language designed to address ROS2's verbosity and complexity challenges. It provides a unified syntax for defining robotics systems, generating optimized Python/C++ code while maintaining full compatibility with existing ROS2 tooling.
 
 ---
 
@@ -549,18 +549,18 @@ class RobotConfiguration:
 ### 3.1 Generation Pipeline
 
 ```
-+-------------â”    +--------------â”    +--------------â”    +-------------â”
-|  NOS   |--->|   Parser     |--->|    AST       |--->|   CodeGen   |
-|   Source    |    |  (ANTLR4)    |    |  Validation  |    |  (Python/   |
-|   (.nos)   |    |              |    |              |    |   C++)      |
++-------------+    +--------------+    +--------------+    +-------------+
+|  NOS        |--->|   Parser     |--->|    AST       |--->|   CodeGen   |
+|  Source     |    |  (ANTLR4)    |    |  Validation  |    |  (Python/   |
+|  (.nos)     |    |              |    |              |    |   C++)      |
 +-------------+    +--------------+    +--------------+    +------+------+
                                                                   |
-                    +--------------â”                              |
+                    +--------------+                              |
                     |   Symbol     |<-----------------------------+
                     |   Table      |    (Type Resolution)         |
                     +--------------+                              |
                                                                   v
-                    +--------------â”                       +-------------â”
+                    +--------------+                       +-------------+
                     |  Message     |                       |   ROS2      |
                     |  Definitions |<-------------------->|  Runtime    |
                     |  (.idl)      |                       |             |
@@ -1000,10 +1000,10 @@ external_node LegacyPlanner @package("nav2_planner") {
 ## 7. Implementation Roadmap
 
 ### Phase 1: Core Language (Months 1-3)
-- [ ] ANTLR4 grammar definition
-- [ ] AST and semantic analyzer
-- [ ] Python code generator
-- [ ] Launch file transpiler
+- [x] ANTLR4 grammar definition
+- [x] AST and semantic analyzer
+- [x] Python code generator
+- [x] Launch file transpiler
 
 ### Phase 2: ROS2 Integration (Months 4-6)
 - [ ] C++ code generator

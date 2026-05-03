@@ -1,4 +1,4 @@
-﻿"""Integration tests for NOS compiler pipeline."""
+﻿"""Integration tests for the NOS compiler pipeline."""
 
 import pytest
 from nos.ast.nodes import (
@@ -47,7 +47,7 @@ class TestEndToEndFlow:
     """End-to-end flow tests."""
 
     def test_node_to_python_pipeline(self):
-        """Full pipeline: Node AST â†’ Analysis â†’ Python Code."""
+        """Full pipeline: Node AST -> Analysis -> Python Code."""
         from nos.ast.nodes import (
             ParameterDecl, PrimitiveType, PrimitiveTypeKind,
             LiteralExpression, CallbackDecl
@@ -97,7 +97,7 @@ class TestEndToEndFlow:
         assert "test_param" in code
 
     def test_launch_to_python_pipeline(self):
-        """Full pipeline: Launch AST â†’ Analysis â†’ Python Code."""
+        """Full pipeline: Launch AST -> Analysis -> Python Code."""
         from nos.ast.nodes import ArgumentDecl, PrimitiveType, PrimitiveTypeKind
 
         # 1. Create AST

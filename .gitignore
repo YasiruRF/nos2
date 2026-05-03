@@ -154,6 +154,10 @@ log/
 *~
 .DS_Store
 
+# Project Specific
+research.md
+GEMINI.md
+
 # Temporary files
 tmp/
 temp/

@@ -1,5 +1,5 @@
-﻿"""Unit tests for AST node classes and builder.
-
+﻿"""Unit tests for AST node classes and the AST builder."""
+"""
 Tests cover:
     - SourceLocation creation and string representation
     - AST node creation (PackageDecl, NodeDecl, ParameterDecl, etc.)
@@ -226,3 +226,4 @@ class TestFileNode:
             declarations=[]
         )
         assert file_node.package.name == "test_pkg"
+

@@ -1,4 +1,4 @@
-﻿"""Unit tests for semantic analysis components."""
+﻿"""Unit tests for the semantic analyzer and symbol table."""
 
 import pytest
 from nos.ast.nodes import (

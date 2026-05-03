@@ -82,13 +82,13 @@ def format_result(result: CompilationResult, file_path: str) -> str:
     lines = []
 
     if result.success:
-        lines.append(f"âœ“ {file_path}")
+        lines.append(f"✓ {file_path}")
         if result.files:
             lines.append(f"  Generated {len(result.files)} file(s):")
             for f in result.files:
                 lines.append(f"    - {f}")
     else:
-        lines.append(f"âœ— {file_path}")
+        lines.append(f"✗ {file_path}")
 
     if result.warnings:
         lines.append(f"  Warnings ({len(result.warnings)}):")
@@ -98,7 +98,7 @@ def format_result(result: CompilationResult, file_path: str) -> str:
     if result.errors:
         lines.append(f"  Errors ({len(result.errors)}):")
         for e in result.errors:
-            lines.append(f"    âœ— {e}")
+            lines.append(f"    ✗ {e}")
 
     return "\n".join(lines)
 

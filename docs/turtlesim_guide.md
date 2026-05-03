@@ -1,6 +1,6 @@
 # Turtlesim Simulation Guide
 
-This guide demonstrates how to use NOS to control a ROS2 Turtlesim simulation.
+This guide demonstrates how to use NOS (Node Orchestration System) to control a ROS2 Turtlesim simulation.
 
 ## Prerequisites
 - ROS2 (Humble or later) installed in a Linux environment (or WSL).
